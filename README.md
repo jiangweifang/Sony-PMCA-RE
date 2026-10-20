@@ -1,110 +1,176 @@
-# Reverse Engineering Sony Digital Cameras
-This tool interfaces with Sony digital cameras through USB. It allows to tweak settings, dump firmware, and in some cases install custom Android apps.
+# A7C II 中文语言修复工具
 
-## Installation
-There are two binaries:
+基于 [Sony-PMCA-RE](https://github.com/ma1co/Sony-PMCA-RE) 开发的专用衍生工具，
+只针对 **Sony A7C II（ILCE-7CM2）多语言解锁后，切换简体或繁体中文发生重启、
+中文不可用的问题**进行诊断与恢复研究。
 
-* **pmca-console**: The main command line application
-* **pmca-gui**: A graphical user interface with a limited set of features
+本项目的目标不是隐藏中文选项，而是确认中文语言位、原始字库与加载路径之间的问题，
+研究能否通过相机已有的服务文件接口恢复中文字库，**不获取额外 root，不刷写固件**。
 
-### Windows
-The application should work fine on Windows using the operating system's mass storage and MTP USB drivers.
+> **当前状态：实验性开发，仅供离线预览与测试。**
+>
+> 现有 GUI 和命令行版本仍使用旧的 `0xFF01` 文件接口，而这份 2.01 固件的三张
+> 内置服务命令表中未发现该接口。候选 Jiritsu 文件接口尚未完成本工具的适配及实机验证。
+> **不要连接相机使用当前版本的检测、修复或恢复功能，即使按钮标注了“no writes”。**
+> 通过离线测试不等于已经修复实机重启，也不代表不会变砖。
 
-Download the [latest stable release](https://github.com/ma1co/Sony-PMCA-RE/releases/latest) or the newest [development build](https://ci.appveyor.com/project/ma1co/sony-pmca-re/build/artifacts).
+## 与原项目的关系
 
-### macOS
-macOS binaries are also distributed, but less tested than the Windows equivalents. Getting the USB drivers to work may require some fiddling. To communicate with cameras in mass storage mode, Sony's [Camera Driver](https://support.d-imaging.sony.co.jp/mac/driver/11/ja/) has to be installed. Make sure to close all applications which could access USB drivers, including Photos, Dropbox and Google Drive.
+本仓库沿用 [adamwuqwq/Sony-PMCA-RE](https://github.com/adamwuqwq/Sony-PMCA-RE)
+分支的代码基础，其上游为 ma1co 的 Sony-PMCA-RE。
 
-The latest release binaries can be found in the [release section](https://github.com/ma1co/Sony-PMCA-RE/releases/latest).
+- **复用上游能力**：USB 通信、Senser 服务认证、设置备份解析，以及原有命令行和 Tk GUI 基础设施。
+- **本项目增加**：A7C II 中文字库恢复原型、受限 GUI、机型/版本/文件校验、失败处理、
+  离线模拟测试与只读诊断交接说明。
+- **不属于本项目目标**：通用相机破解、其他机型语言解锁、应用安装、录像限制调整、
+  FL2/FL3、滤镜或其他功能移植。
 
-### Linux
-The application uses Python 3 and should work fine on Linux using libusb drivers.
+上游代码已保留在本仓库中，运行本项目源码不需要再安装另一份上游可执行程序。
+本项目不是 Sony 官方工具，也不是上游作者发布或背书的中文修复版本。
+仓库中保留的上游通用代码，不代表本工具支持或允许使用其所有功能。
 
-Clone or download this repository, then run the following commands:
-```bash
-pip install -r requirements.txt  # to install the dependencies
-./pmca-console.py  # for the command line application
-./pmca-gui.py  # for the gui application
+## 目标机型与范围
+
+| 项目 | 当前研究范围 |
+| --- | --- |
+| 相机 | Sony A7C II / **ILCE-7CM2** |
+| 固件 | **2.01** |
+| 预设基线 | 日版 **CX89700_J1** |
+| 问题 | 多语言解锁后中文不可用，或切换中文导致重启 |
+| 关注资源 | 简体、繁体中文字库及相关字体配置 |
+| 实机状态 | 尚未验证读取、修复、中文菜单或冷启动 |
+
+初代 A7C、A7CR 和其他机型不在当前范围内。其他固件版本、地区预设及修改过的系统库，
+不能凭名称相近就套用本工具。
+
+“多语言已解锁”不一定意味着中文语言位已经开启，也不能证明字库存在。
+同样，固件包中存在字库，不代表它已经完整保存在某台机身上。
+
+## 本项目明确不做什么
+
+- 不修改、重打包或刷写 DAT，不使用 Firmware Updater 或更新版本门槛相关流程。
+- 不修改地区代码、地区预设、校准数据、启动程序或系统共享库。
+- 不获取额外 root，不注入载荷，不修改预加载配置，不加载自定义机内代码。
+- 不开启或使用 Telnet、ADB、交互式 shell，也不以其他执行入口替代它们。
+- 不复制其他机身的设置备份，不提供通用救砖或恢复出厂功能。
+
+如果无法在这些边界内继续，应停止调查，而不是自动改用风险更高的路径。
+相机原有服务进程可能具有较高权限；使用既有接口不等于额外 root，
+但也不能据此宣称操作没有风险。
+
+## 已完成与待完成
+
+| 内容 | 状态 |
+| --- | --- |
+| 中文恢复专用 GUI、目录选择、确认框和日志 | 已实现，限离线预览 |
+| 字库与机型校验、备份及恢复事务原型 | 已实现，仅通过模拟测试 |
+| 已启用中文时跳过设置备份写入 | 已通过离线测试 |
+| 普通文件访问与自定义代码加载的分支分析 | 已取得原始固件的静态证据 |
+| 不获取额外 root 的只读 Jiritsu 适配器 | 待完成适配与验证 |
+| 实机字体状态、写入条件及中文重启验证 | 未完成 |
+
+最近一次本地离线验证通过 **47 项测试**，其中包含 **17 项 GUI 测试**，
+并覆盖 **38 个通信失败注入位置**。这些测试使用模拟相机，不能证明真实 USB 协议兼容，
+也不能模拟所有断电、闪存损坏或启动校验情况。
+
+另一个重要发现是：某些服务模式的**预设备份读取本身可能触发删字库**。
+因此，后续只读诊断不能直接复用普通备份或 Tweaks 流程。
+
+## 从源码进行离线预览
+
+当前 GUI 的本地验证环境为 Windows x64、Python 3.13、Tk 8.6。
+以下命令只准备电脑上的开发环境，不安装或替换相机 USB 驱动。
+
+在仓库根目录打开 PowerShell，使用带 Tkinter 的 Python：
+
+```powershell
+python -m venv env1
+.\env1\Scripts\python.exe -m pip install -r .\requirements.txt
+.\env1\Scripts\python.exe .\pmca-gui.py --chinese-recovery-only
 ```
 
-## Usage
-There are three main modes of interfacing with a camera:
+依赖列表见 [requirements.txt](requirements.txt)。专用窗口打开时不会连接 USB，
+也不会加载应用商店。请始终带上 `--chinese-recovery-only`，不要用原有通用页面替代它。
 
-### App Installer
-If the camera supports *PlayMemories Camera Apps (PMCA)*, it is possible to install custom Android apps using this tool. A list of supported cameras can be found [here](https://openmemories.readthedocs.io/devices.html).
+窗口保留以下工作流原型：
 
-It is recommended to install the [*OpenMemories: Tweak*](https://github.com/ma1co/OpenMemories-Tweak) app. This app allows to tweak settings and to start *telnet* and *adb* servers to execute code on the system.
+| 按钮 | 设计用途 |
+| --- | --- |
+| **Check (no writes)** | 检查中文语言位和字库 |
+| **Repair Chinese** | 校验原始字体及新备份目录后执行恢复 |
+| **Restore from backup** | 从同一机身的备份恢复原中文语言位及可恢复字体 |
 
-Other apps are available. A list can be found [here](https://github.com/ma1co/OpenMemories-AppList).
+**当前只允许查看界面，不要点击这些按钮发起机身操作。**
+按钮存在、确认框出现或模拟测试通过，都不代表实机功能已经获准使用。
+详细界面说明见 [中文操作指南](docs/ChineseRecoveryOffline.zh-CN.md)。
 
-There are two ways to install apps:
-* **pmca-gui**: In the *Install app* tab, select an app from the list and click *Install selected app*.
-* **pmca-console**: Run `pmca-console install -i` to interactively select an app to install.
+## 离线测试
 
-### Firmware Updater
-Sony cameras can boot from a secondary partition for firmware updates. Using a custom firmware file, we can execute code in this mode. Note that the camera firmware itself remains untouched. The firmware update process is only used to execute custom code.
+使用上述开发环境，在仓库根目录运行：
 
-This mode does not require any special drivers, the operating system's mass storage USB driver is enough.
+```powershell
+.\env1\Scripts\python.exe -m unittest discover -s tests -p 'test_chinese*.py' -v
+```
 
-A list of supported camera models can be found [here](https://openmemories.readthedocs.io/devices.html). Devices based on the CXD90045 and CXD90057 architectures are not compatible, since their firmware is cryptographically signed.
+默认不需要 Sony 固件；依赖真实固件数据的测试会跳过。若已自行准备匹配版本的解包结果，
+可显式启用这些测试：
 
-There are two ways to use this:
-* **pmca-gui**: In the *Tweaks* tab, click *Start tweaking (updater mode)*. You can then use the checkboxes to configure your camera's settings.
-* **pmca-console**: Run `pmca-console updatershell`. There are commands available to dump the firmware, execute Linux commands, and to tweak settings.
+```powershell
+$env:PMCA_TEST_FIRMWARE_ROOT = (Resolve-Path '.\.firmware\analysis-201').Path
+.\env1\Scripts\python.exe -m unittest discover -s tests -p 'test_chinese*.py' -v
+Remove-Item Env:\PMCA_TEST_FIRMWARE_ROOT
+```
 
-Note that this requires rebooting the camera to firmware update mode. You will be guided through this process.
+这些测试只读取本机参考文件，通过模拟后端和临时目录验证逻辑，
+不连接相机、不执行提取出的固件程序。没有图形环境时，Tk GUI 测试也可能跳过。
 
-### Service Mode
-Sony cameras have a USB mode called *senser mode*, which is used during servicing for calibration and other things. It can also be used to execute code on the running system.
+## 本地资料与换机
 
-Service mode has the best camera compatibility, but requires custom USB drivers.
+根据 [Git 忽略规则](.gitignore)，整个 `.firmware` 目录都被排除，其中的原始 DAT、解包结果和分析证据
+需要自行保管及迁移，**不会通过 Git 或本仓库的 Git LFS 自动下载**。
+本地构建输出 `dist` 也不随仓库迁移。
 
-It is currently only supported in the command line application:
-* **pmca-console**: Run `pmca-console serviceshell`. There are commands available to dump the firmware and to execute Linux commands.
+请自行合法取得匹配的固件资料，按实际大小和 SHA-256 校验；本仓库不分发 Sony 固件、
+字库或个人机身备份。不要把私有备份、凭据、序列号或未脱敏日志提交到仓库。
 
-#### Chinese language recovery (ILCE-7CM2 2.01, experimental)
+换机后先阅读 [只读交接指引](.github/copilot-instructions.md)。
+当前允许推进的是离线验证，以及在只读接口完成审查、取得明确授权后的有限诊断，
+不是直接运行现有修复事务。
 
-**Offline preview only:** further firmware analysis found that the current
-`0xFF01` file transport is absent from the inspected 2.01 service command tables.
-Do not run the current recovery builds against a camera; the alternative native
-file interface still needs integration and validation. See the recovery guide.
+## 代码与文档入口
 
-The service shell provides `chinese check`, `chinese repair <FONTDIR> <NEW_BACKUPDIR>`,
-and `chinese restore <BACKUPDIR>`. This opt-in recovery restores the original
-Chinese fonts after backup operations and enables only the two Chinese language
-flags. It does not remove the Japanese-camera safeguard from ordinary tweaks.
-It requires fonts extracted from the matching firmware, checks the camera and
-service-library identity, and saves a local recovery backup.
+| 入口 | 内容 |
+| --- | --- |
+| [中文恢复原型](pmca/platform/chinese.py) | 身份与字库校验、设置处理、恢复事务；传输兼容性仍待修正 |
+| [GUI](pmca-gui.py) | `--chinese-recovery-only` 受限窗口 |
+| [核心测试](tests/test_chinese.py) | 模拟设备、错误与回滚场景 |
+| [固件数据测试](tests/test_chinese_firmware.py) | 使用用户本地 2.01 参考文件的离线测试 |
+| [GUI 测试](tests/test_chinese_gui.py) | 按钮、确认、后台任务和禁止路径检查 |
+| [技术说明](docs/ChineseLanguageRecovery.md) | 原始固件证据、资源摘要、实验设计及已知限制 |
+| [中文操作指南](docs/ChineseRecoveryOffline.zh-CN.md) | 界面说明、风险与当前禁用状态 |
+| [只读交接指引](.github/copilot-instructions.md) | 安全边界、换机准备与下一阶段步骤 |
 
-Read [Chinese language recovery](docs/ChineseLanguageRecovery.md) before use.
-For the Windows offline delivery, see the
-[Chinese operation guide](docs/ChineseRecoveryOffline.zh-CN.md).
-The dedicated GUI provides directory pickers and **Check**, **Repair Chinese**
-and **Restore from backup** buttons. Run `python pmca-gui.py --chinese-recovery-only`
-from source, or use the dedicated GUI build. This restricted window exposes no
-firmware updater, region-changing, telnet or ADB controls and does not connect
-to a camera on launch. Service-mode operations require confirmation; write
-operations additionally require the selected recovery directories.
-Offline tests pass, but a successful language switch and cold restart on a real
-camera have not been verified. No firmware binaries or fonts are distributed here.
+## 研究参考与致谢
 
-#### Windows Drivers
-To use service mode on Windows, custom drivers have to be installed using [Zadig](http://zadig.akeo.ie/):
-* Make sure the camera is connected in mass storage mode.
-* In Zadig, check *Options -> List All Devices*, select the camera, select *libusb-win32* and click *Replace Driver*.
-* Run `pmca-console serviceshell` to make the camera switch modes.
-* Once the camera has switched, repeat the above step to install a driver for service mode.
-* You should now be able to use `pmca-console serviceshell`.
+除 Sony-PMCA-RE 上游外，本项目的语言与字库调查还参考了以下公开研究：
 
-To be able to use the camera normally again, the libusb drivers have to be uninstalled in device manager.
+| 项目 | 参考内容 | 本项目的使用边界 |
+| --- | --- | --- |
+| [YuuLuo/a7c2-camera-tools（中文说明）](https://github.com/YuuLuo/a7c2-camera-tools/blob/main/README.zh-CN.md) | A7C II 2.01 的服务通信、机身校验和工程验证记录 | 仅作资料对照，不采用其 DAT 修改、更新门控、载荷执行或功能安装流程 |
+| [chocotan/a7c2-re](https://github.com/chocotan/a7c2-re) | 原生菜单 QEMU 实验、字体访问观测、文件语义及故障记录 | 仅参考与语言问题有关的离线观测方法，不运行机内注入或额外 root 流程，不直接套用其地区预设 |
+| [ChambersXDU/sony-a7c2-research](https://github.com/ChambersXDU/sony-a7c2-research) | 同型号 2.01 固件的离线解包、型号/版本识别和资源摘要核对 | 用于分析用户自行取得的参考文件，不修改或刷写 DAT，不采用其他机内功能补丁 |
 
-## Is it safe?
-This is an experiment in a very early stage. All information has been found through reverse engineering. Even though everything worked fine for our developers, it could cause harm to your hardware. If you break your camera, you get to keep both pieces. **We won't take any responsibility.**
+**这些链接不是本工具的安装步骤或实机操作授权。** 引用不表示已整体引入其代码、
+采用其写入方案、获得作者背书，或其验证结论可以直接适用于本项目。
+各项目的许可证独立适用；本项目仍只处理 A7C II 中文语言问题，
+不使用 Firmware Updater、地区修改、Telnet、ADB 或额外 root 执行链。
 
-## What about custom apps?
-It is possible to develop custom Android apps for supported cameras. Keep in mind that they should be compatible with Android 2.3.7. Debug and release certificates are accepted by the camera. See [*PMCADemo*](https://github.com/ma1co/PMCADemo) for a demo app.
+## 风险与许可
 
-There are a few special Sony APIs which allow you to take advantage of the features of your camera. They can be used through [*OpenMemories: Framework*](https://github.com/ma1co/OpenMemories-Framework).
+本项目仍处于研究阶段，不保证修复效果、设备安全或故障后的可恢复性。
+**设置备份不是完整救砖镜像，自动回滚也依赖设备仍可通信。**
+在真实读取、字体恢复、中文菜单与冷启动均获得验证前，不应称为稳定修复工具。
 
-## Special thanks
-Without the work done by the people at [nex-hack](http://www.personal-view.com/faqs/sony-hack/hack-development), this wouldn't have been possible. Thanks a lot!
+代码沿用上游的 [MIT 许可证](LICENSE.txt)，保留 ma1co 的原始版权声明。
+感谢 Sony-PMCA-RE 及相关公开研究提供的基础工作；上游作者没有为本项目的结论或操作背书。
+Sony 固件与字体不属于本项目 MIT 许可所覆盖的素材。
