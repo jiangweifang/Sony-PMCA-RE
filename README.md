@@ -64,6 +64,11 @@ It is currently only supported in the command line application:
 
 #### Chinese language recovery (ILCE-7CM2 2.01, experimental)
 
+**Offline preview only:** further firmware analysis found that the current
+`0xFF01` file transport is absent from the inspected 2.01 service command tables.
+Do not run the current recovery builds against a camera; the alternative native
+file interface still needs integration and validation. See the recovery guide.
+
 The service shell provides `chinese check`, `chinese repair <FONTDIR> <NEW_BACKUPDIR>`,
 and `chinese restore <BACKUPDIR>`. This opt-in recovery restores the original
 Chinese fonts after backup operations and enables only the two Chinese language
@@ -74,6 +79,12 @@ service-library identity, and saves a local recovery backup.
 Read [Chinese language recovery](docs/ChineseLanguageRecovery.md) before use.
 For the Windows offline delivery, see the
 [Chinese operation guide](docs/ChineseRecoveryOffline.zh-CN.md).
+The dedicated GUI provides directory pickers and **Check**, **Repair Chinese**
+and **Restore from backup** buttons. Run `python pmca-gui.py --chinese-recovery-only`
+from source, or use the dedicated GUI build. This restricted window exposes no
+firmware updater, region-changing, telnet or ADB controls and does not connect
+to a camera on launch. Service-mode operations require confirmation; write
+operations additionally require the selected recovery directories.
 Offline tests pass, but a successful language switch and cold restart on a real
 camera have not been verified. No firmware binaries or fonts are distributed here.
 

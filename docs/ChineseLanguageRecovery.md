@@ -1,9 +1,18 @@
 # Chinese language recovery
 
+> **Current builds are for offline preview only; do not use them on a camera.**
+> Further analysis of the original 2.01 service library found no `0xFF01` entry
+> in its three built-in command tables. Current PMCA file access still uses that
+> interface. Native Jiritsu ordinary-file handlers are a potential alternative
+> without injected code or additional root access, but transport integration
+> and hardware compatibility remain unverified. Mock tests do not establish
+> this compatibility; the steps below describe the experimental workflow, not
+> approval to use the current build on a camera.
+
 ## Scope and verification status
 
-This is an **experimental, explicit service-shell operation**, not a general
-language unlock. It is limited to:
+This is an **experimental, explicit service-mode operation**, available in the
+service shell and dedicated recovery GUI, not a general language unlock. It is limited to:
 
 - Camera: ILCE-7CM2.
 - Installed firmware: 2.01.
@@ -92,6 +101,31 @@ device-specific settings and identifiers. Each recovery requires a **new**
 directory; existing backups are never overwritten.
 
 ## Commands
+
+### Dedicated GUI
+
+```powershell
+python .\pmca-gui.py --chinese-recovery-only
+```
+
+The dedicated Windows GUI build starts in this restricted mode by default.
+It exposes only the Chinese recovery controls: **Check (no writes)**,
+**Repair Chinese**, and **Restore from backup**, with separate path pickers.
+There are no firmware updater, region-changing, telnet or ADB entry points.
+Opening the restricted window does not connect to USB or load the app store.
+The ordinary GUI remains available from source without this flag, unchanged
+in its original tabs; do not use that window for this restricted workflow.
+
+Each action asks for confirmation, with No as the default. Repair requires an
+original-font directory and a new backup directory; restore requires an existing
+recovery directory. The buttons call the same validated recovery implementation
+as the service-shell commands below, not the ordinary tweak interface.
+The operation runs in a worker thread, with progress and errors in the log.
+Controls and normal window closing are blocked until the camera operation
+finishes. A completion dialog reports only readback success, not a verified
+hardware fix. No-device and transport failures are displayed as errors.
+
+### Service shell
 
 Start the current source version, not an older downloaded executable:
 

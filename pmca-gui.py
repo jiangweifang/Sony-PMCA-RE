@@ -1,20 +1,29 @@
 #!/usr/bin/env python3
 """A simple gui interface"""
 import sys
+import argparse
+import os
+import time
 import traceback
 import webbrowser
+from tkinter.filedialog import askdirectory
+from tkinter.messagebox import askyesno, showerror, showinfo, showwarning
 
 import config
 from pmca.commands.usb import *
 from pmca.platform.backend.senser import *
 from pmca.platform.backend.usb import *
+from pmca.platform.chinese import ChineseLanguageRepair
 from pmca.platform.tweaks import *
 from pmca.ui import *
 
 if getattr(sys, 'frozen', False):
+ import frozenversion
  from frozenversion import version
+ recoveryOnly = getattr(frozenversion, 'recovery_only', False)
 else:
  version = None
+ recoveryOnly = False
 
 class PrintRedirector(object):
  """Redirect writes to a function"""
@@ -26,7 +35,29 @@ class PrintRedirector(object):
    self.parent.write(str)
   self.func(str)
  def flush(self):
-  self.parent.flush()
+  if self.parent:
+   self.parent.flush()
+
+
+class CameraTask(BackgroundTask):
+ def run(self):
+  self.root = self.ui.winfo_toplevel()
+  if not self.root.beginCameraTask():
+   return
+  started = False
+  try:
+   super(CameraTask, self).run()
+   started = True
+  finally:
+   if not started:
+    self.root.endCameraTask()
+
+ def _onThread(self, arg):
+  try:
+   result = self.do(arg)
+  finally:
+   self.ui.run(self.root.endCameraTask)
+  self.ui.run(lambda: self.doAfter(result))
 
 
 class AppLoadTask(BackgroundTask):
@@ -169,22 +200,113 @@ class TweakApplyTask(BackgroundTask):
   self.ui.cancel()
 
 
+class ChineseRecoveryTask(CameraTask):
+ def __init__(self, ui, operation):
+  super(ChineseRecoveryTask, self).__init__(ui)
+  self.operation = operation
+
+ def run(self):
+  if self.ui.winfo_toplevel().cameraBusy:
+   showwarning('Camera busy', 'Wait for the current camera operation to finish.', parent=self.ui)
+   return
+  try:
+   self.arguments = self.ui.getArguments(self.operation)
+  except ValueError as error:
+   showerror('Chinese recovery', str(error), parent=self.ui)
+   return
+  if self.operation == 'check':
+   message = ('Switch to service mode and check ILCE-7CM2 2.01 fonts and Chinese flags?\n\n'
+              'This check issues no preset-backup commands and writes no camera files or settings. '
+              'Entering service mode still requires the correct USB driver and is not risk-free.')
+  else:
+   message = ('EXPERIMENTAL: this operation writes persistent camera files'
+              ' and may write a settings backup.\n\n'
+              'Only ILCE-7CM2 2.01 / CX89700_J1 is supported. Hardware validation is still pending. '
+              'Do not disconnect USB or power. A local settings backup is not a complete unbrick image.\n\n'
+              'No firmware updater, region changes, telnet or ADB are used.\n\n'
+              'Recovery directory: %s\n\nContinue?' % self.arguments[-1])
+  if not askyesno('Confirm Chinese recovery', message, parent=self.ui, icon='warning', default='no'):
+   return
+  super(ChineseRecoveryTask, self).run()
+
+ def doBefore(self):
+  self.ui.status.set('Running %s... Do not disconnect USB or power.' % self.operation)
+  return self.arguments
+
+ def do(self, args):
+  try:
+   print('\nChinese recovery: %s' % self.operation)
+   results = []
+   def connected(device):
+    backend = SenserPlatformBackend(device)
+    try:
+     backend.start()
+     recovery = ChineseLanguageRepair(backend)
+     if self.operation == 'check':
+      result = recovery.check()
+     elif self.operation == 'repair':
+      result = recovery.repair(*args)
+     elif self.operation == 'restore':
+      result = recovery.restore(*args)
+     else:
+      raise ValueError('Unknown Chinese recovery operation')
+    finally:
+     backend.stop()
+    results.append(result)
+   senserShellCommand(complete=connected)
+   if not results:
+    raise RuntimeError('No camera operation completed. Check the USB connection, mass-storage mode and service-mode driver.')
+   return True, results[0]
+  except Exception as error:
+   traceback.print_exc()
+   return False, str(error)
+
+ def doAfter(self, result):
+  success, value = result
+  if not success:
+   self.ui.status.set('Operation failed. Read the log before taking further action.')
+   showerror('Chinese recovery failed', value, parent=self.ui)
+  elif self.operation == 'check':
+   if value:
+    self.ui.status.set('Fonts verified. Review the Chinese language flags in the log.')
+    showinfo('Check completed', 'Fonts match the verified firmware. Review the language flags in the log.\nNo repair was performed.', parent=self.ui)
+   else:
+    self.ui.status.set('Font issues found. No repair was performed; review the log.')
+    showwarning('Check completed', 'Some fonts could not be verified. Review the log before deciding whether to repair.\nNo repair was performed.', parent=self.ui)
+  else:
+   self.ui.status.set('%s completed and read back. Hardware restart testing is still required.' % self.operation.capitalize())
+   showwarning('Camera operation completed',
+               'File/settings readback completed; this is not proof of a successful hardware fix.\n\n'
+               'Do not run ordinary tweaks or preset-backup commands afterwards. '
+               'Test the menu and a cold restart before considering the repair verified.',
+               parent=self.ui)
+
+
 class MainUi(UiRoot):
  """Main window"""
- def __init__(self, title):
+ def __init__(self, title, recoveryOnly=False):
   UiRoot.__init__(self)
 
   self.title(title)
-  self.geometry('450x500')
+  self.geometry('720x760' if recoveryOnly else '450x500')
+  if recoveryOnly:
+   self.minsize(680, 650)
   self['menu'] = Menu(self)
+  self.cameraBusy = False
+  self._disabledControls = []
+  self.protocol('WM_DELETE_WINDOW', self.close)
 
-  tabs = Notebook(self, padding=5)
+  tabs = self.tabs = Notebook(self, padding=5)
   tabs.pack(fill=X)
 
-  tabs.add(InfoFrame(self, padding=10), text='Camera info')
-  tabs.add(InstallerFrame(self, padding=10), text='Install app')
-  tabs.add(UpdaterShellFrame(self, padding=10), text='Tweaks')
-  tabs.add(FirmwareFrame(self, padding=10), text='Update firmware')
+  if recoveryOnly:
+   self.chineseRecovery = ChineseRecoveryFrame(self, padding=10)
+   tabs.add(self.chineseRecovery, text='Chinese recovery')
+  else:
+   tabs.add(InfoFrame(self, padding=10), text='Camera info')
+   tabs.add(InstallerFrame(self, padding=10), text='Install app')
+   tabs.add(UpdaterShellFrame(self, padding=10), text='Tweaks')
+   tabs.add(FirmwareFrame(self, padding=10), text='Update firmware')
 
   docsLink = Label(self, text='Camera compatibility', foreground='blue', cursor='hand2')
   docsLink.bind('<Button-1>', lambda e: webbrowser.open_new(config.docsUrl + '/devices.html'))
@@ -195,6 +317,37 @@ class MainUi(UiRoot):
   self.logText.pack(fill=BOTH, expand=True)
 
   self.redirectStreams()
+
+ def beginCameraTask(self):
+  if self.cameraBusy:
+   showwarning('Camera busy', 'Wait for the current camera operation to finish.', parent=self)
+   return False
+  self.cameraBusy = True
+  self._disabledControls = []
+  def disable(parent):
+   for widget in parent.winfo_children():
+    if isinstance(widget, Toplevel):
+     continue
+    if isinstance(widget, (Button, Entry, Combobox, Radiobutton, Checkbutton)) and not widget.instate(['disabled']):
+     self._disabledControls.append(widget)
+     widget.state(['disabled'])
+    disable(widget)
+  disable(self)
+  return True
+
+ def endCameraTask(self):
+  for widget in self._disabledControls:
+   widget.state(['!disabled'])
+  self._disabledControls = []
+  self.cameraBusy = False
+
+ def close(self):
+  if self.cameraBusy:
+   showwarning('Camera operation in progress',
+               'Keep the application open and do not disconnect the camera until the operation finishes.',
+               parent=self)
+   return
+  self.destroy()
 
  def log(self, msg):
   self.logText.text.configure(state=NORMAL)
@@ -318,6 +471,85 @@ class UpdaterShellFrame(UiFrame):
   self.startSenserShellButton.pack(fill=X, pady=(5, 0))
 
 
+class ChineseRecoveryFrame(UiFrame):
+ def __init__(self, parent, **kwargs):
+  UiFrame.__init__(self, parent, **kwargs)
+  Label(self, text='ILCE-7CM2 | firmware 2.01 | Japanese CX89700_J1 preset').pack(anchor=W)
+  Label(self, text='Experimental - not hardware-verified. Check first. A settings backup is not a full unbrick image.',
+        foreground='#965000', wraplength=640).pack(fill=X, pady=(3, 8))
+  Label(self, text='Service mode only. No firmware updater, region changes, telnet or ADB.',
+        wraplength=640).pack(fill=X, pady=(0, 5))
+
+  self.fontDirectory = StringVar(self)
+  self.backupDirectory = StringVar(self)
+  self.restoreDirectory = StringVar(self)
+  self.status = StringVar(self, value='Not connected. No camera operation starts automatically.')
+  self.addDirectory('Original font directory', self.fontDirectory, self.chooseFonts, 'Browse...')
+  self.addDirectory('New repair backup directory (must not exist)', self.backupDirectory, self.chooseBackup, 'Choose parent...')
+  self.addDirectory('Existing backup to restore', self.restoreDirectory, self.chooseRestore, 'Browse...')
+
+  actions = Frame(self)
+  actions.pack(fill=X, pady=(8, 5))
+  self.checkButton = Button(actions, text='1. Check (no writes)', command=ChineseRecoveryTask(self, 'check').run, padding=5)
+  self.repairButton = Button(actions, text='2. Repair Chinese...', command=ChineseRecoveryTask(self, 'repair').run, padding=5)
+  self.restoreButton = Button(actions, text='Restore from backup...', command=ChineseRecoveryTask(self, 'restore').run, padding=5)
+  for button in (self.checkButton, self.repairButton, self.restoreButton):
+   button.pack(side=LEFT, fill=X, expand=True, padx=2)
+  Label(self, textvariable=self.status, wraplength=640).pack(fill=X)
+  Label(self, text='Repair runs last, then exits service mode. Later ordinary tweaks can delete the fonts again.',
+        wraplength=640).pack(fill=X, pady=(5, 0))
+
+ def addDirectory(self, title, variable, command, buttonText):
+  frame = Labelframe(self, text=title, padding=5)
+  frame.pack(fill=X, pady=2)
+  frame.columnconfigure(0, weight=1)
+  Entry(frame, textvariable=variable).grid(row=0, column=0, sticky=W+E, padx=(0, 5))
+  Button(frame, text=buttonText, command=command).grid(row=0, column=1)
+
+ def chooseFonts(self):
+  path = askdirectory(parent=self, title='Select the matching firmware font directory', mustexist=True)
+  if path:
+   self.fontDirectory.set(path)
+
+ def chooseBackup(self):
+  parent = askdirectory(parent=self, title='Select the parent of a NEW recovery directory', mustexist=True)
+  if parent:
+   path = os.path.join(parent, 'camera-recovery-' + time.strftime('%Y%m%d-%H%M%S'))
+   candidate, index = path, 1
+   while os.path.exists(candidate):
+    candidate = path + '-%d' % index
+    index += 1
+   self.backupDirectory.set(candidate)
+
+ def chooseRestore(self):
+  path = askdirectory(parent=self, title='Select an existing recovery backup', mustexist=True)
+  if path:
+   self.restoreDirectory.set(path)
+
+ def getArguments(self, operation):
+  if operation == 'check':
+   return ()
+  if operation == 'repair':
+   fonts, backup = self.fontDirectory.get().strip(), self.backupDirectory.get().strip()
+   if not fonts or not os.path.isdir(fonts):
+    raise ValueError('Select the original font directory first.')
+   if not all(os.path.isfile(os.path.join(fonts, name)) for name in ChineseLanguageRepair.FONTS):
+    raise ValueError('The font directory must contain both original Chinese .ltt files and Sony_DI_Icons.ttf.')
+   if not backup or os.path.exists(backup):
+    raise ValueError('Choose a new backup directory that does not already exist.')
+   if not os.path.isdir(os.path.dirname(os.path.abspath(backup))):
+    raise ValueError('The backup directory parent must exist.')
+   return fonts, backup
+  if operation == 'restore':
+   directory = self.restoreDirectory.get().strip()
+   if not directory or not all(os.path.isfile(os.path.join(directory, name)) for name in ('manifest.json', 'backup.bin')):
+    raise ValueError('Select a recovery directory containing manifest.json and backup.bin.')
+   if os.path.exists(os.path.join(directory, 'restore')):
+    raise ValueError('This backup already contains a restore directory; it will not be overwritten.')
+   return (directory,)
+  raise ValueError('Unknown Chinese recovery operation')
+
+
 class TweakDialog(UiDialog):
  def __init__(self, parent, tweakInterface, endFlag=None):
   self.tweakInterface = tweakInterface
@@ -361,7 +593,14 @@ class TweakDialog(UiDialog):
 
 def main():
  """Gui main"""
- ui = MainUi('OpenMemories: pmca-gui' + (' ' + version if version else ''))
+ parser = argparse.ArgumentParser(description='OpenMemories camera GUI')
+ parser.add_argument('--chinese-recovery-only', action='store_true', default=recoveryOnly,
+                     help='show only the guarded Chinese recovery controls')
+ if version:
+  parser.add_argument('--version', action='version', version=version)
+ args = parser.parse_args()
+ title = 'Chinese recovery' if args.chinese_recovery_only else 'OpenMemories: pmca-gui'
+ ui = MainUi(title + (' ' + version if version else ''), recoveryOnly=args.chinese_recovery_only)
  ui.mainloop()
 
 
