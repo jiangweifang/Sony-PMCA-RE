@@ -62,6 +62,21 @@ Service mode has the best camera compatibility, but requires custom USB drivers.
 It is currently only supported in the command line application:
 * **pmca-console**: Run `pmca-console serviceshell`. There are commands available to dump the firmware and to execute Linux commands.
 
+#### Chinese language recovery (ILCE-7CM2 2.01, experimental)
+
+The service shell provides `chinese check`, `chinese repair <FONTDIR> <NEW_BACKUPDIR>`,
+and `chinese restore <BACKUPDIR>`. This opt-in recovery restores the original
+Chinese fonts after backup operations and enables only the two Chinese language
+flags. It does not remove the Japanese-camera safeguard from ordinary tweaks.
+It requires fonts extracted from the matching firmware, checks the camera and
+service-library identity, and saves a local recovery backup.
+
+Read [Chinese language recovery](docs/ChineseLanguageRecovery.md) before use.
+For the Windows offline delivery, see the
+[Chinese operation guide](docs/ChineseRecoveryOffline.zh-CN.md).
+Offline tests pass, but a successful language switch and cold restart on a real
+camera have not been verified. No firmware binaries or fonts are distributed here.
+
 #### Windows Drivers
 To use service mode on Windows, custom drivers have to be installed using [Zadig](http://zadig.akeo.ie/):
 * Make sure the camera is connected in mass storage mode.

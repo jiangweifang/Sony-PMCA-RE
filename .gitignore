@@ -3,3 +3,4 @@
 *.pyc
 .vs
 env1
+.firmware

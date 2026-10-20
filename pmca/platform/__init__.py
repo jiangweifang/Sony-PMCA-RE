@@ -3,7 +3,9 @@ import posixpath
 
 from .android import *
 from .backend import *
+from .backend.senser import SenserPlatformBackend
 from .backup import *
+from .chinese import ChineseLanguageRepair
 from .properties import *
 from .tweaks import *
 from ..io import *
@@ -25,6 +27,14 @@ class CameraShell(Shell):
   if isinstance(self.backend, FilePlatformBackend):
    self.addCommand('push', Command(self.push, (2,), 'Copy the specified file from the computer to the device', '<LOCAL> <REMOTE>'))
    self.addCommand('pull', Command(self.pull, (1, 1, ['.']), 'Copy the specified file from the device to the computer', '<REMOTE> [<LOCAL>]'))
+
+  if isinstance(self.backend, SenserPlatformBackend):
+   chinese = ChineseLanguageRepair(self.backend)
+   recovery = SubCommand()
+   recovery.addCommand('check', Command(chinese.check, (), 'Check ILCE-7CM2 2.01 Chinese fonts without preset reads'))
+   recovery.addCommand('repair', Command(chinese.repair, (2,), 'Restore verified fonts and enable Chinese', '<FONTDIR> <NEW_BACKUPDIR>'))
+   recovery.addCommand('restore', Command(chinese.restore, (1,), 'Restore Chinese flags from a recovery backup', '<BACKUPDIR>'))
+   self.addCommand('chinese', recovery)
 
   if isinstance(self.backend, BootloaderPlatformBackend):
    self.addCommand('bootloader', Command(self.bootloader, (0, 1, ['.']), 'Dump the boot loader', '[<OUTDIR>]'))

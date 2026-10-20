@@ -20,6 +20,12 @@ class InvalidCommandException(Exception):
  pass
 
 
+class SenserFileControlError(Exception):
+ def __init__(self, response, filename):
+  self.response = response
+  super(SenserFileControlError, self).__init__('Senser file control error %d: %s' % (response, filename))
+
+
 class UsbDevice(object):
  def __init__(self, driver):
   self.driver = driver

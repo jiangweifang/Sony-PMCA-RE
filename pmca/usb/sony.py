@@ -1000,7 +1000,7 @@ class SonySenserCamera(object):
   header = self.FileControlHeader.pack(cmd=cmd, filenameSize=len(filename))
   res, data = self.dev.sendSenserPacket(self.SONY_PFUNC_FileControl, header + filename + data, outFile)
   if res != 1:
-   raise Exception('Senser file control error %d' % res)
+   raise SenserFileControlError(res, filename.rstrip(b'\0').decode('latin1'))
   return data
 
  def _sendMemoryDumpPacket(self, base, size, data=b'', outFile=None):
