@@ -1,0 +1,343 @@
+diff --git a/report/2026-10-17-qemu-native-camera/.gitignore b/report/2026-10-17-qemu-native-camera/.gitignore
+index 55e6aa815463e29838e6855bbf241163f6db9e29..df44efaf4c510a12114d07411cb6fc8e7eeae43f 100644
+--- a/report/2026-10-17-qemu-native-camera/.gitignore
++++ b/report/2026-10-17-qemu-native-camera/.gitignore
+@@ -1,4 +1,5 @@
+ # Generated Sony assets and local experiment data are not public source.
++.venv/
+ runtime/analysis/menu-root/
+ runtime/analysis/unpacked/
+ runtime/analysis/libIMDB-menu.so
+diff --git a/report/2026-10-17-qemu-native-camera/PREREQUISITES.md b/report/2026-10-17-qemu-native-camera/PREREQUISITES.md
+index ccdb5a8a0569930fa2043ff1432f7730504fb5b3..60d30870e4a5c64e372739702d8491a9d376c5b6 100644
+--- a/report/2026-10-17-qemu-native-camera/PREREQUISITES.md
++++ b/report/2026-10-17-qemu-native-camera/PREREQUISITES.md
+@@ -62,7 +62,7 @@ FIRMWARE_ROOT/
+ │   ├── facedmy.bin
+ │   ├── kemco.txt
+ │   └── ulogio.bin
+-└── 0110_backup/SYSIPSX-DSLR/PP/CX89701_ALLLANG.bin
++└── 0110_backup/SYSIPSX-DSLR/PP/CX89700_J1.bin
+ ```
+ 
+ 另需 `firmware.fdat` 或其**前512字节**作为型号、版本和身份校验输入。
+@@ -72,7 +72,7 @@ FIRMWARE_ROOT/
+ | `nflasha3` | 原内核、initrd及启动相关内容 | 32,752,640B |
+ | `nflasha8` | CP相关文件 | 25,102,336B |
+ | `nflasha15` | `/usr`、原应用、库、字体/图片等 | 770,030,592B |
+-| `CX89701_ALLLANG.bin` | 干净默认配置，不使用研究者私有Backup | 2,390,264B |
++| `CX89700_J1.bin` | 本地适配的日版出厂配置，不使用研究者私有Backup | 2,390,264B |
+ | 六个setting文件 | 内存/驱动等配置；空的development.txt也须保留 | 逐项见导入器固定清单 |
+ | FDAT头 | 固定型号/2.01版本及身份 | 至少512B |
+ 
+diff --git a/report/2026-10-17-qemu-native-camera/README.md b/report/2026-10-17-qemu-native-camera/README.md
+index 0cb36515b1ab1731bfce9500edc476dbbb401993..9aedab60bb6e3a55f3fec440e25735320531c17f 100644
+--- a/report/2026-10-17-qemu-native-camera/README.md
++++ b/report/2026-10-17-qemu-native-camera/README.md
+@@ -1,5 +1,10 @@
+ # A7C II 原生 QEMU 相机实验
+ 
++> **本地 J1 适配版**：本目录固定使用官方 `CX89700_J1` 预设，不再使用上游
++> `CX89701_ALLLANG`。导入路径、两个 seed、副本清单和摘要校验同步切换；
++> 不读取机身私有设置，也不自动开启中文。见 [Ubuntu 准备说明](../../../modules/README.md)。
++> 下方及历史报告中的运行验收来自上游 ALLLANG 环境，不是本地 J1 启动验收。
++
+ 目标是运行 ILCE-7CM2 2.01 的原始相机应用，并逐步接入显示、物理控件、虚拟成像和文件保存。这是正在实现的研究成果，**目前不能称为完整相机模拟器**。
+ 
+ 本次公开范围与验收状态见 [2026-10-17 阶段进展](STATUS.md)。公开仓库提供源码与复现工具，不附Sony原始固件、私有配置、运行日志或生成程序；这些输入/产物须按本文在本机准备。
+@@ -53,7 +58,7 @@
+ - 仅本机隔离 QEMU，无真实相机、物理 SD 或磁盘直通。
+ - 主机磁盘只用于实验文件、虚拟存储和导出的成果。
+ - 代码与开源依赖单独交付；Sony 固件由使用者自行提供，版本和摘要须匹配。
+-- 通过导入器干净生成 rootfs，使用固件包 ALLLANG 默认设置；不分享研究者的设备私有 Backup/setting。
++- 通过导入器干净生成 rootfs，使用固件包 CX89700_J1 默认设置；不分享研究者的设备私有 Backup/setting。
+ - 原始固件不修改。IMDB 的十个实验服务掩码变更、虚拟身份卷和软件设备模型必须明确标注。
+ - 一键菜单启动和干净资产导入已可用；完整 QEMU 源码差分、全部控件及拍摄链仍在整合，未完成步骤不会写成已验收。
+ 
+diff --git a/report/2026-10-17-qemu-native-camera/runtime/analysis/ASSET-IMPORT.md b/report/2026-10-17-qemu-native-camera/runtime/analysis/ASSET-IMPORT.md
+index 2463c40ff53e6935f53b5c4e451324a02152c67c..7896cbcf2e4285bebeb893d58986759c9841bae4 100644
+--- a/report/2026-10-17-qemu-native-camera/runtime/analysis/ASSET-IMPORT.md
++++ b/report/2026-10-17-qemu-native-camera/runtime/analysis/ASSET-IMPORT.md
+@@ -1,6 +1,6 @@
+ # Sony 2.01 offline native assets importer
+ 
+-从合法取得、已经解包的 **ILCE-7CM2 2.01** 固件生成干净 QEMU runtime 资产。
++从合法取得、已经解包的 **ILCE-7CM2 2.01** 固件生成干净 **CX89700_J1** QEMU runtime 资产。
+ 这是固定输入版本的离线安装器；不下载、不启动 VM、不访问设备、不生成 cpio/ext2。
+ 公开源码包括本目录 Python、固定 `sony-assets.json` 清单、文档和 MIT fwtool 子集，**不得把 `check/` 或生成的 runtime 当公开源码一起分发**。
+ 
+@@ -20,7 +20,7 @@ python3 prepare-assets.py --runtime "$RUNTIME" --check-runtime
+ ```
+ 
+ `FIRMWARE_ROOT` 下只读取代码 `INPUTS` 列出的 nflasha3/8/15、6 个 setting 文件及
+-`0110_backup/SYSIPSX-DSLR/PP/CX89701_ALLLANG.bin`。FDAT 只读前 512 B。
++`0110_backup/SYSIPSX-DSLR/PP/CX89700_J1.bin`。FDAT 只读前 512 B。
+ 所有原始输入只读；整个原镜像 hash、大小和 FDAT 身份必须匹配。
+ 资产路径不能包含符号链接；普通目录名可包含空格。输入期间不应由其他进程改写文件。
+ 
+@@ -33,8 +33,8 @@ runtime 可以先包含 main 安装的脚本、overlay 和 `sources/`，但以
+ - debugfs 从原始 initrd 展开根，再从 nflasha15 展开 `/usr`；保留原始 guest 链接及文件模式。
+   非 root 用户无法保留 guest UID/GID；只容忍精确的 chown 权限提示，其他 debugfs 错误失败。
+ - nflasha3/8 由已核验镜像提取到 `analysis/unpacked/firmware.tar_unpacked/0700_part_image/dev/`，
+-  `/cp`、`/system`、6 个 setting 和 ALLLANG 按现有启动布局安装。不会复制 770 MB 的 nflasha15 原镜像。
+-- `seed-backup.bin` 与 `seed-setting/Backup.bin` 均为同一个公开固件 ALLLANG 内容，seed 区只允许 7 个指定文件。
++  `/cp`、`/system`、6 个 setting 和 CX89700_J1 按现有启动布局安装。不会复制 770 MB 的 nflasha15 原镜像。
++- `seed-backup.bin` 与 `seed-setting/Backup.bin` 均为同一个公开固件 CX89700_J1 内容，seed 区只允许 7 个指定文件。
+   不读取 real-setting，不保留研究根 rootshd 或旧 helper。main 随后执行既有 build/pack。
+ - IMDB 通过标准库 ELF64 PT_LOAD 映射，在 VA `0x1db20..0x21d80`、步长 `0x48` 上定位恰好 10 项，
+   执行 `mask &= ~7`（include-default）；原始和输出 SHA 固定校验，3 个输出副本必须一致。
+@@ -42,6 +42,7 @@ runtime 可以先包含 main 安装的脚本、overlay 和 `sources/`，但以
+   复现历史 hash `535d8f0570a4e56e04e71c400863ed39bbd735c85a9aa8e32748a136968d495c`，DAT4 为 `01 02`。
+ - schema 2 的 `native-assets.json` 最后安装，记录型号、版本、输入 hash、`source_class`、关键参数及每个安装文件的大小/hash/权限或链接目标。
+   不写输入宿主绝对路径，不将派生 IMDB/身份卷标记为原厂。
++  本地版 `seed_policy` 固定为 `cx89700_j1`；拒绝上游 `alllang` 清单和只改标签的 ALLLANG 文件。
+ - `--check-runtime` 不需要原始固件，独立校验关键固定锚点、manifest 记录、seed 一致性和所有 guest 链接。
+   绝对 guest 链接按 guest 根解析；哈希读取从不跟随宿主符号链接。Sony 资产集合及预期摘要由源码中固定摘要的 `sony-assets.json` 约束，不能靠改写 manifest 取消校验。
+   host 生成根中的 `setting/` 必须为空，只在 guest 中从已验证 seed 初始化。仅允许列明的编译 helper 和项目 overlay 新增到根中；执行位也参与校验。
+@@ -55,13 +56,16 @@ runtime 可以先包含 main 安装的脚本、overlay 和 `sources/`，但以
+ 
+ ```bash
+ python3 test-assets.py -v
++SONY_TEST_FIRMWARE_ROOT="$FIRMWARE_ROOT" SONY_TEST_FDAT="$FDAT_OR_512_BYTE_HEADER" \
++  python3 test-assets.py AssetsTest.test_actual_j1_inputs AssetsTest.test_actual_fdat_header -v
+ SONY_TEST_USR_IMAGE="$FIRMWARE_ROOT/0700_part_image/dev/nflasha15" \
+   python3 test-assets.py --runtime "$RUNTIME" -v
+ ```
+ 
+-第一条是无 Sony 文件的小测试；第二条验证真实导入、精确 IMDB SHA/10 字节差异，
++第一条是无 Sony 文件的小测试；第二条只读核验原始输入，不导入或启动 VM。
++第三条验证真实导入、精确 IMDB SHA/10 字节差异，
+ 并在独占测试 runtime 上短暂篡改库、Backup 和链接，确认检测后恢复原内容。
+-**第二条只用于测试 runtime，不能在别人正在运行的 runtime 上执行。**
++**第三条只用于测试 runtime，不能在别人正在运行的 runtime 上执行。**
+ 
+ 本工具只交付资产导入。原生窗口、QEMU、observer 编译、基础 DTB、启动链与 GUI 验收由主集成负责。
+ fwtool 修改和许可证见 [vendor/fwtool/README.md](vendor/fwtool/README.md)。
+diff --git a/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-assets.py b/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-assets.py
+index 69d59f25b282780e0c6338689e44dbd98c372ccd..3cbcf216607d5d37d0d4680649a127589b424731 100644
+--- a/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-assets.py
++++ b/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-assets.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Import only the pinned ILCE-7CM2 2.01 assets into a clean offline runtime."""
++"""Import pinned ILCE-7CM2 2.01 CX89700_J1 assets into a clean offline runtime."""
+ import argparse
+ import hashlib
+ import io
+@@ -21,7 +21,9 @@ from fwtool.archive import UnixFile
+ from fwtool.archive.fat import readFat, writeFat
+ 
+ PART = '0700_part_image/dev/'
+-BACKUP = '0110_backup/SYSIPSX-DSLR/PP/CX89701_ALLLANG.bin'
++PRESET = 'CX89700_J1'
++SEED_POLICY = PRESET.lower()
++BACKUP = f'0110_backup/SYSIPSX-DSLR/PP/{PRESET}.bin'
+ SETTINGS = '0800_appli/setting/'
+ HEADER_SHA = 'ee176eb36cadf11d0f9d02f0829121352fa9d5804932a33831764618c23e8c5e'
+ IMDB_SHA = '14f3cd439bf27a6878b97d155c3cd97cc534a57395f922aed56e59a5b8b32f31'
+@@ -32,7 +34,7 @@ INPUTS = {
+     PART+'nflasha3': (32752640, '5d8bff23ee1f2e464e36f086fb8e40fe22d3ac8c3b5b11d0a4a0f845a6f8f2c6'),
+     PART+'nflasha8': (25102336, '8700f570aed3eb32038f313590759736a06162f402637518f8078dd51b6f1541'),
+     PART+'nflasha15': (770030592, '621d152c075712369464248b0bfb46451220f6fc8e26a058a5ed5dcb898bd915'),
+-    BACKUP: (2390264, '3dab4f0d6b7790f4a7798034b57f43bfe3255c39dc6da2897fc288b3a218fe47'),
++    BACKUP: (2390264, 'e02f7bba71d8fe9ecabfd8d0eb8b92cb8046e36d4783a70ad6e7a1c283edc811'),
+     SETTINGS+'DmmCfg.bin': (65956, '6c37baddaa60b6756340f77b051eed948978cea28d04f499f91263c9d270d962'),
+     SETTINGS+'cxd90057.dtb': (16875, 'c5735ad9c6da8c48fb24eeee0bb743d07c486a47d5db19bef13b5eaea24ad280'),
+     SETTINGS+'development.txt': (0, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
+@@ -55,7 +57,7 @@ SKIP = {'libUsbBusPower.so', 'libInfraUsbCmn.so', 'libsensapi.so',
+         'libUsbControl.so', 'libBusPower.so', 'libHotplug.so', 'libInfraCrypt.so',
+         'libInfraMediaPwrMgr.so', 'libNetServiceTethering.so', 'libTetheringResource.so'}
+ OUTPUTS = ('menu-root', 'unpacked', 'libIMDB-menu.so', 'firmware-identity.json', 'native-assets.json')
+-INVENTORY_SHA = '5b328a77983b7b5f6aaa23226bd239ca1991138af9b63e363c916f8fb9ad1ca4'
++INVENTORY_SHA = 'ba08eb7f92f8e547871d4644cd9705c9e71fabf61ab52651792efa3280a50924'
+ GENERATED = {'init', 'lib/observe-constructor.so'} | {
+     'simulation/' + name for name in (
+         'menu-observe.so', 'ramfb-viewer', 'headless-osd-export', 'menu-readmem',
+@@ -305,7 +307,7 @@ def check_runtime(runtime, overlay=None):
+     analysis = local(runtime, 'analysis')
+     overlay = overlay or analysis/'guest-overlay'
+     manifest = json.loads(ordinary(local(analysis, 'native-assets.json')).read_text())
+-    if manifest.get('schema') != 2 or manifest.get('model') != 'ILCE-7CM2' or manifest.get('version') != '2.01' or manifest.get('seed_policy') != 'alllang':
++    if manifest.get('schema') != 2 or manifest.get('model') != 'ILCE-7CM2' or manifest.get('version') != '2.01' or manifest.get('seed_policy') != SEED_POLICY:
+         raise ValueError('Invalid native assets manifest/version')
+     expected_inputs = {n: {'source_class': 'sony_original', 'size': s, 'sha256': h} for n, (s, h) in INPUTS.items()}
+     if manifest.get('inputs') != expected_inputs or manifest.get('fdat_header') != {'source_class': 'sony_original', 'size': 512, 'sha256': HEADER_SHA}:
+@@ -442,7 +444,7 @@ def import_assets(firmware, fdat, runtime):
+                 path = local(a, name)
+                 verified(path, expected['sha256'], expected['size'])
+                 path.chmod(expected['mode'])
+-        manifest = {'schema': 2, 'model': 'ILCE-7CM2', 'version': '2.01', 'seed_policy': 'alllang',
++        manifest = {'schema': 2, 'model': 'ILCE-7CM2', 'version': '2.01', 'seed_policy': SEED_POLICY,
+                     'inputs': {n: {'source_class': 'sony_original', 'size': s, 'sha256': h} for n, (s, h) in INPUTS.items()},
+                     'fdat_header': {'source_class': 'sony_original', 'size': 512, 'sha256': HEADER_SHA},
+                     'patchedIMDB': {'source_class': 'sony_derived', 'input_sha256': IMDB_SHA, 'output_sha256': PATCH_SHA,
+@@ -454,7 +456,7 @@ def import_assets(firmware, fdat, runtime):
+         for name in OUTPUTS:
+             # Manifest is installed last: partial installs never have a success marker.
+             (a/name).rename(analysis/name)
+-        print(f'Installed {len(manifest["assets"])} assets; seed_policy=alllang', flush=True)
++        print(f'Installed {len(manifest["assets"])} assets; seed_policy={SEED_POLICY}', flush=True)
+     except Exception:
+         print(f'IMPORT FAILED; preserved staging: {stage}', file=sys.stderr)
+         raise
+@@ -475,7 +477,7 @@ def main():
+         local(Path(runtime.anchor), str(runtime).lstrip('/'))
+         if args.check_runtime:
+             check_runtime(runtime)
+-            print('CHECK_RUNTIME_PASS ILCE-7CM2 2.01 all lang')
++            print(f'CHECK_RUNTIME_PASS ILCE-7CM2 2.01 {PRESET}')
+         else:
+             if args.firmware_root is None or args.fdat is None:
+                 parser.error('--firmware-root and --fdat are required for import')
+diff --git a/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-menu-initramfs.sh b/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-menu-initramfs.sh
+index 890bc50bdfe4d68c1c505796ed9548f68695ad3c..f3ecbdef3480c2ac9a801e89c5e8a409167cca92 100644
+--- a/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-menu-initramfs.sh
++++ b/report/2026-10-17-qemu-native-camera/runtime/analysis/prepare-menu-initramfs.sh
+@@ -2,6 +2,7 @@
+ # Separate raw cpio test root; the original kernel has no gzip initrd support.
+ set -euo pipefail
+ analysis_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
++python3 "$analysis_dir/prepare-assets.py" --runtime "$(dirname -- "$analysis_dir")" --check-runtime
+ root="$analysis_dir/menu-root"
+ boot="$analysis_dir/unpacked/firmware.tar_unpacked/0700_part_image/dev/nflasha3_unpacked"
+ output="$analysis_dir/menu-initramfs.cpio"
+@@ -21,28 +22,7 @@ chmod 0555 "$root/usr/lib/libIMDB.so"
+ mkdir -p "$root/simulation" "$root/seed-setting"
+ cp -f "$analysis_dir/libIMDB-menu.so" "$root/simulation/libIMDB.so"
+ cp "$analysis_dir/menu-observe.so" "$root/simulation/menu-observe.so"
+-# The real camera Backup.bin and /setting contents are kept beside the research notes. When they
+-# are present the guest starts from the device own persistent state instead of the update-package
+-# defaults; set SEED_BACKUP=alllang to force the package default back.
+-real_setting="$analysis_dir/../../qemu-boot-research/updater-integration/real-setting"
+-if [ -f "$analysis_dir/native-assets.json" ]; then
+-  # The installed runtime has one validated seed; never blend in research settings.
+-  echo 'seed: using verified installed ALLLANG assets'
+-elif [ "${SEED_BACKUP:-real}" = real ] && [ -f "$real_setting/Backup.bin" ]; then
+-  cp -a "$analysis_dir/unpacked/firmware.tar_unpacked/0800_appli/setting/." "$root/seed-setting/"
+-  cp -f "$real_setting/Backup.bin" "$root/seed-backup.bin"
+-  for extra in defdet.bin psd.bin Backup.bak .hasp .etools ulogio.bin facedmy.bin kemco.txt DmmCfg.bin cxd90057.dtb; do
+-    [ -f "$real_setting/$extra" ] && cp -f "$real_setting/$extra" "$root/seed-setting/$extra"
+-  done
+-  mkdir -p "$root/seed-setting/mode" "$root/seed-setting/appfw_infra" "$root/seed-setting/gps" "$root/seed-setting/updater"
+-  # -f: the real updater files are 0444, so a plain -a cannot overwrite a previous copy
+-  [ -d "$real_setting/updater" ] && cp -af "$real_setting/updater/." "$root/seed-setting/updater/" 2>/dev/null || true
+-  echo "seed: using the real device /setting and Backup"
+-else
+-  cp -a "$analysis_dir/unpacked/firmware.tar_unpacked/0800_appli/setting/." "$root/seed-setting/"
+-  cp "$analysis_dir/unpacked/firmware.tar_unpacked/0110_backup/SYSIPSX-DSLR/PP/CX89701_ALLLANG.bin" "$root/seed-backup.bin"
+-  echo "seed: using the update package ALLLANG Backup"
+-fi
++echo 'seed: using verified installed CX89700_J1 assets'
+ printf '%s\n' '#!/bin/busybox sh' \
+   '/bin/busybox mount -t devtmpfs devtmpfs /dev' \
+   'exec /bin/busybox sh </dev/ttyAMA0 >/dev/ttyAMA0 2>&1' > "$root/init"
+diff --git a/report/2026-10-17-qemu-native-camera/runtime/analysis/sony-assets.json b/report/2026-10-17-qemu-native-camera/runtime/analysis/sony-assets.json
+index 452088969bc99b8a6ef2fba3f7639408e125d67e..ea0c0920f732cdea38f4937db0739fa927681be4 100644
+--- a/report/2026-10-17-qemu-native-camera/runtime/analysis/sony-assets.json
++++ b/report/2026-10-17-qemu-native-camera/runtime/analysis/sony-assets.json
+@@ -653,13 +653,13 @@
+   },
+   "menu-root/seed-backup.bin": {
+     "mode": 420,
+-    "sha256": "3dab4f0d6b7790f4a7798034b57f43bfe3255c39dc6da2897fc288b3a218fe47",
++    "sha256": "e02f7bba71d8fe9ecabfd8d0eb8b92cb8046e36d4783a70ad6e7a1c283edc811",
+     "size": 2390264,
+     "source_class": "sony_original"
+   },
+   "menu-root/seed-setting/Backup.bin": {
+     "mode": 420,
+-    "sha256": "3dab4f0d6b7790f4a7798034b57f43bfe3255c39dc6da2897fc288b3a218fe47",
++    "sha256": "e02f7bba71d8fe9ecabfd8d0eb8b92cb8046e36d4783a70ad6e7a1c283edc811",
+     "size": 2390264,
+     "source_class": "sony_original"
+   },
+@@ -7273,9 +7273,9 @@
+     "size": 19,
+     "source_class": "sony_original"
+   },
+-  "unpacked/firmware.tar_unpacked/0110_backup/SYSIPSX-DSLR/PP/CX89701_ALLLANG.bin": {
++  "unpacked/firmware.tar_unpacked/0110_backup/SYSIPSX-DSLR/PP/CX89700_J1.bin": {
+     "mode": 420,
+-    "sha256": "3dab4f0d6b7790f4a7798034b57f43bfe3255c39dc6da2897fc288b3a218fe47",
++    "sha256": "e02f7bba71d8fe9ecabfd8d0eb8b92cb8046e36d4783a70ad6e7a1c283edc811",
+     "size": 2390264,
+     "source_class": "sony_original"
+   },
+diff --git a/report/2026-10-17-qemu-native-camera/runtime/analysis/test-assets.py b/report/2026-10-17-qemu-native-camera/runtime/analysis/test-assets.py
+index f5454d3dcea98aeeb4fc44395b1bc588cfb56c0b..1049ffd9494266f5cabd0ec1678be81fbb648b5d 100644
+--- a/report/2026-10-17-qemu-native-camera/runtime/analysis/test-assets.py
++++ b/report/2026-10-17-qemu-native-camera/runtime/analysis/test-assets.py
+@@ -25,6 +25,73 @@ if '--runtime' in sys.argv:
+ 
+ 
+ class AssetsTest(unittest.TestCase):
++    def test_j1_seed_and_inventory(self):
++        self.assertEqual(m.PRESET, 'CX89700_J1')
++        self.assertEqual(m.SEED_POLICY, 'cx89700_j1')
++        self.assertEqual(m.BACKUP, '0110_backup/SYSIPSX-DSLR/PP/CX89700_J1.bin')
++        expected = {
++            'mode': 0o644,
++            'sha256': 'e02f7bba71d8fe9ecabfd8d0eb8b92cb8046e36d4783a70ad6e7a1c283edc811',
++            'size': 2390264,
++            'source_class': 'sony_original',
++        }
++        self.assertEqual(m.INPUTS[m.BACKUP], (expected['size'], expected['sha256']))
++        inventory = m.trusted_inventory()
++        for name in ('menu-root/seed-backup.bin', 'menu-root/seed-setting/Backup.bin',
++                     'unpacked/firmware.tar_unpacked/' + m.BACKUP):
++            with self.subTest(name=name):
++                self.assertEqual(inventory[name], expected)
++        self.assertFalse(any('ALLLANG' in name for name in inventory))
++
++    def test_inventory_digest_is_required(self):
++        with patch.object(m, 'INVENTORY_SHA', '0' * 64):
++            with self.assertRaisesRegex(ValueError, 'Trusted Sony inventory changed'):
++                m.trusted_inventory()
++
++    def test_alllang_manifest_is_rejected(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            (root/'analysis').mkdir()
++            manifest = {'schema': 2, 'model': 'ILCE-7CM2', 'version': '2.01',
++                        'seed_policy': 'alllang'}
++            (root/'analysis/native-assets.json').write_text(json.dumps(manifest))
++            with self.assertRaisesRegex(ValueError, 'Invalid native assets manifest/version'):
++                m.check_runtime(root)
++
++    def test_alllang_input_cannot_be_relabelled_j1(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            (root/'analysis').mkdir()
++            inputs = {name: {'source_class': 'sony_original', 'size': size, 'sha256': digest}
++                      for name, (size, digest) in m.INPUTS.items()}
++            inputs[m.BACKUP]['sha256'] = '3dab4f0d6b7790f4a7798034b57f43bfe3255c39dc6da2897fc288b3a218fe47'
++            manifest = {'schema': 2, 'model': 'ILCE-7CM2', 'version': '2.01',
++                        'seed_policy': m.SEED_POLICY, 'inputs': inputs,
++                        'fdat_header': {'source_class': 'sony_original', 'size': 512,
++                                        'sha256': m.HEADER_SHA}}
++            (root/'analysis/native-assets.json').write_text(json.dumps(manifest))
++            with self.assertRaisesRegex(ValueError, 'Changed input provenance'):
++                m.check_runtime(root)
++
++    @unittest.skipUnless(os.environ.get('SONY_TEST_FIRMWARE_ROOT'),
++                         'set SONY_TEST_FIRMWARE_ROOT for read-only original input checks')
++    def test_actual_j1_inputs(self):
++        root = Path(os.environ['SONY_TEST_FIRMWARE_ROOT'])
++        for name, (size, digest) in m.INPUTS.items():
++            with self.subTest(name=name):
++                m.verified(m.local(root, name), digest, size)
++
++    @unittest.skipUnless(os.environ.get('SONY_TEST_FDAT'),
++                         'set SONY_TEST_FDAT for a read-only FDAT header check')
++    def test_actual_fdat_header(self):
++        with Path(os.environ['SONY_TEST_FDAT']).open('rb') as source:
++            header = source.read(512)
++        self.assertEqual(len(header), 512)
++        self.assertEqual(m.sha(header), m.HEADER_SHA)
++        self.assertEqual(header[:8], b'UDTRFIRM')
++        self.assertEqual(struct.unpack_from('<II', header, 36), (0x20030014, 0))
++        self.assertEqual(header[32:34], b'\x01\x02')
++
+     def test_elf_boundaries(self):
+         data = bytearray(128)
+         data[:6] = b'\x7fELF\x02\x01'

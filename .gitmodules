@@ -1,3 +1,6 @@
 [submodule "updatershell/platform"]
 	path = updatershell/platform
 	url = https://github.com/ma1co/OpenMemories-Platform
+[submodule "qemu"]
+	path = qemu
+	url = https://github.com/chocotan/a7c2-re.git
