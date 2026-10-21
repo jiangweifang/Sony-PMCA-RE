@@ -3,4 +3,4 @@
 	url = https://github.com/ma1co/OpenMemories-Platform
 [submodule "qemu"]
 	path = qemu
-	url = https://github.com/chocotan/a7c2-re.git
+	url = https://github.com/jiangweifang/a7c2-re.git
