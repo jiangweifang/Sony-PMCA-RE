@@ -1,0 +1,565 @@
+Zadig 2.9.788
+Windows 11 Enterprise, x64 (Build 26300.9711)
+ini file 'zadig.ini' not found in 'D:\Downloads' - default parameters will be used
+default driver set to 'WinUSB'
+0 devices found.
+12 devices found.
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_03
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (0): USB\VID_046D&PID_C548&MI_03\6&BC4FD63&2&0003
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 3)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (1): USB\VID_046D&PID_C548&MI_02\6&BC4FD63&2&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (2): USB\VID_046D&PID_C548&MI_01\6&BC4FD63&2&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (3): USB\VID_046D&PID_C548&MI_00\6&BC4FD63&2&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (4): USB\VID_046D&PID_C52B&MI_00\7&C100E2&0&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_067B&PID_2323&REV_0705
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_067B&Class_02&SubClass_02&Prot_00
+libwdi:debug [wdi_create_list] Upper filter: serenum
+libwdi:debug [wdi_create_list] Driver version: 5.2.12.0
+libwdi:debug [wdi_create_list] plser USB device (7): USB\VID_067B&PID_2323\ANBPZ114J20
+libwdi:debug [wdi_create_list] Device description: 'USB-Serial Controller'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (8): USB\VID_046D&PID_C52B&MI_01\7&C100E2&0&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_8087&PID_0033&REV_0000
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_8087&Class_E0&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 24.70.0.4
+libwdi:debug [wdi_create_list] BTHUSB USB device (9): USB\VID_8087&PID_0033\5&30EDC94B&0&14
+libwdi:debug [wdi_create_list] Device description: '英特尔(R) 无线 Bluetooth(R)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_1100&REV_0101
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (10): USB\VID_0BDA&PID_1100\6&36F4B7A5&0&6
+libwdi:debug [wdi_create_list] Device description: 'HID Device'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_8153&REV_3300
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_FF&SubClass_FF&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 11.19.602.2025
+libwdi:debug [wdi_create_list] rtucx22x64 USB device (11): USB\VID_0BDA&PID_8153\0033000001
+libwdi:debug [wdi_create_list] Device description: 'USB 10/100/1000 LAN'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_054C&PID_0E8A&REV_0100
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_054C&Class_08&SubClass_06&Prot_50
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9444
+libwdi:debug [wdi_create_list] USBSTOR USB device (14): USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [wdi_create_list] Device description: 'ILCE-7CM2'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (16): USB\VID_046D&PID_C52B&MI_02\7&C100E2&0&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+Using inf name: ILCE-7CM2.inf
+Successfully extracted driver files.
+libwdi:info [wdi_prepare_driver] K driver available - adding the libusbK DLLs to the libusb-win32 inf
+libwdi:info [extract_binaries] Successfully extracted driver files to 'C:\Users\v-weifjiang\usb_driver'
+libwdi:info [wdi_prepare_driver] Successfully created 'C:\Users\v-weifjiang\usb_driver\ILCE-7CM2.inf'
+libwdi:info [wdi_prepare_driver] Creating and self-signing a .cat file...
+libwdi:info [wdi_prepare_driver] Test signing is: Disabled
+libwdi:debug [AddFileHash] 'libusb0.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\amd64\libusb0.dll'
+libwdi:debug [AddFileHash] 'libusb0.sys': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\amd64\libusb0.sys'
+libwdi:debug [AddFileHash] 'libusb0_x86.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\amd64\libusb0_x86.dll'
+libwdi:debug [AddFileHash] 'libusbk.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\amd64\libusbk.dll'
+libwdi:debug [AddFileHash] 'libusbk_x86.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\amd64\libusbk_x86.dll'
+libwdi:debug [AddFileHash] 'libusb0.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\arm64\libusb0.dll'
+libwdi:debug [AddFileHash] 'libusb0.sys': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\arm64\libusb0.sys'
+libwdi:debug [AddFileHash] 'ilce-7cm2.inf': INF type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\ilce-7cm2.inf'
+libwdi:debug [AddFileHash] 'libusb0.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\x86\libusb0.dll'
+libwdi:debug [AddFileHash] 'libusb0.sys': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\x86\libusb0.sys'
+libwdi:debug [AddFileHash] 'libusb0_x86.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\x86\libusb0_x86.dll'
+libwdi:debug [AddFileHash] 'libusbk.dll': PE type
+libwdi:info [ScanDirAndHash] added hash for 'C:\Users\v-weifjiang\usb_driver\x86\libusbk.dll'
+libwdi:info [CreateCat] Successfully created file 'C:\Users\v-weifjiang\usb_driver\ILCE-7CM2.cat'
+libwdi:debug [CreateSelfSignedCert] Set Enhanced Key Usage, URL and CPS
+libwdi:debug [CreateSelfSignedCert] Created new key container
+libwdi:debug [CreateSelfSignedCert] Generated new keypair...
+libwdi:info [CreateSelfSignedCert] Created new self-signed certificate 'CN=USB\VID_054C&PID_0E8A (libwdi autogenerated)'
+libwdi:debug [SelfSignFile] Successfully created certificate 'CN=USB\VID_054C&PID_0E8A (libwdi autogenerated)'
+libwdi:info [SelfSignFile] Added certificate 'CN=USB\VID_054C&PID_0E8A (libwdi autogenerated)' to 'Root' and 'TrustedPublisher' stores
+libwdi:info [SelfSignFile] Successfully signed file 'C:\Users\v-weifjiang\usb_driver\ILCE-7CM2.cat'
+libwdi:info [SelfSignFile] Successfully deleted private key
+Installing driver. Please wait...
+libwdi:debug [wdi_install_driver] Using progress bar mode
+libwdi:debug [installer process] got parameter ILCE-7CM2.inf
+libwdi:debug [process_message] Got request for device_id
+libwdi:debug [installer process] got device_id: 'USB\VID_054C&PID_0E8A\D115100F779A'
+libwdi:debug [process_message] Got request for hardware_id
+libwdi:debug [installer process] got hardware_id: 'USB\VID_054C&PID_0E8A&REV_0100'
+libwdi:debug [installer process] got user_sid: 'S-1-12-1-525173669-1088363860-1418408102-2021488917'
+libwdi:debug [installer process] using syslog 'C:\Windows\inf\setupapi.dev.log'
+libwdi:debug [installer process] syslog reader thread started
+libwdi:debug [installer process] successfully disabled the system restore point creation setting
+libwdi:debug [process_message] Switching timeout to infinite
+libwdi:debug [installer process] Installing driver for USB\VID_054C&PID_0E8A&REV_0100 - please wait...
+libwdi:debug [syslog] <Garbled data>
+libwdi:debug [syslog] >>>  [Device Install (UpdateDriverForPlugAndPlayDevices) - USB\VID_054C&PID_0E8A&REV_0100]
+libwdi:debug [syslog] >>>  Section start 2026/10/21 13:30:23.435
+libwdi:debug [syslog]       cmd: "C:\Users\v-weifjiang\usb_driver\installer_x64.exe" "ILCE-7CM2.inf"
+libwdi:debug [syslog]      ndv: INF path: C:\Users\v-weifjiang\usb_driver\ILCE-7CM2.inf
+libwdi:debug [syslog]      ndv: Install flags: 0x00000001
+libwdi:debug [syslog]      ndv: {Update Device Driver - USB\VID_054C&PID_0E8A\D115100F779A}
+libwdi:debug [syslog]      ndv:      Search options: 0x00000080
+libwdi:debug [syslog]      ndv:      Searching single INF 'C:\Users\v-weifjiang\usb_driver\ILCE-7CM2.inf'
+libwdi:debug [syslog]      dvi:      {Build Driver List} 13:30:23.524
+libwdi:debug [syslog]      dvi:           Searching for hardware ID(s):
+libwdi:debug [syslog]      dvi:                usb\vid_054c&pid_0e8a&rev_0100
+libwdi:debug [syslog]      dvi:                usb\vid_054c&pid_0e8a
+libwdi:debug [syslog]      dvi:           Searching for compatible ID(s):
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08&subclass_06
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08
+libwdi:debug [syslog]      dvi:                usb\class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:                usb\class_08&subclass_06
+libwdi:debug [syslog]      dvi:                usb\class_08
+libwdi:debug [syslog]      sig:           {_VERIFY_FILE_SIGNATURE} 13:30:23.685
+libwdi:debug [syslog]      sig:                Key      = ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                FilePath = c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                Catalog  = c:\users\v-weifjiang\usb_driver\ILCE-7CM2.cat
+libwdi:debug [syslog] !    sig:                Verifying file against specific (valid) catalog failed.
+libwdi:debug [syslog] !    sig:                Error 0x800b0109: A certificate chain processed, but terminated in a root certificate which is not trusted by the trust provider.
+libwdi:debug [syslog]      sig:           {_VERIFY_FILE_SIGNATURE exit(0x800b0109)} 13:30:23.789
+libwdi:debug [syslog]      sig:           {_VERIFY_FILE_SIGNATURE} 13:30:23.805
+libwdi:debug [syslog]      sig:                Key      = ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                FilePath = c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                Catalog  = c:\users\v-weifjiang\usb_driver\ILCE-7CM2.cat
+libwdi:debug [syslog]      sig:                Success: File is signed in Authenticode(tm) catalog.
+libwdi:debug [syslog]      sig:                Error 0xe0000241: The INF was signed with an Authenticode(tm) catalog from a trusted publisher.
+libwdi:debug [syslog]      sig:           {_VERIFY_FILE_SIGNATURE exit(0xe0000241)} 13:30:23.901
+libwdi:debug [syslog]      dvi:           Created Driver Node:
+libwdi:debug [syslog]      dvi:                HardwareID   - USB\VID_054C&PID_0E8A
+libwdi:debug [syslog]      dvi:                InfName      - c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf
+libwdi:debug [syslog]      dvi:                DevDesc      - ILCE-7CM2
+libwdi:debug [syslog]      dvi:                Section      - LIBUSB_WIN32_DEV.NTAMD64
+libwdi:debug [syslog]      dvi:                Rank         - 0x00ff0001
+libwdi:debug [syslog]      dvi:                Signer Score - Authenticode
+libwdi:debug [syslog]      dvi:                DrvDate      - 02/22/2024
+libwdi:debug [syslog]      dvi:                Version      - 1.4.0.0
+libwdi:debug [syslog]      dvi:      {Build Driver List - exit(0x00000000)} 13:30:24.037
+libwdi:debug [syslog]      dvi:      {DIF_SELECTBESTCOMPATDRV} 13:30:24.050
+libwdi:debug [syslog]      dvi:           Default installer: Enter 13:30:24.065
+libwdi:debug [syslog]      dvi:                {Select Best Driver}
+libwdi:debug [syslog]      dvi:                     Class GUID of device changed to: {eb781aaf-9c70-4523-a5df-642a87eca567}.
+libwdi:debug [syslog]      dvi:                     Selected Driver:
+libwdi:debug [syslog]      dvi:                          Description - ILCE-7CM2
+libwdi:debug [syslog]      dvi:                          InfFile     - c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf
+libwdi:debug [syslog]      dvi:                          Section     - LIBUSB_WIN32_DEV.NTAMD64
+libwdi:debug [syslog]      dvi:                {Select Best Driver - exit(0x00000000)}
+libwdi:debug [syslog]      dvi:           Default installer: Exit
+libwdi:debug [syslog]      dvi:      {DIF_SELECTBESTCOMPATDRV - exit(0x00000000)} 13:30:24.189
+libwdi:debug [syslog]      ndv:      Force Installing Driver:
+libwdi:debug [syslog]      ndv:           Inf Name       - ilce-7cm2.inf
+libwdi:debug [syslog]      ndv:           Driver Date    - 02/22/2024
+libwdi:debug [syslog]      ndv:           Driver Version - 1.4.0.0
+libwdi:debug [syslog]      sto:      {Setup Import Driver Package: c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf} 13:30:24.260
+libwdi:debug [syslog]      inf:           Provider: libusb-win32
+libwdi:debug [syslog]      inf:           Class GUID: {EB781AAF-9C70-4523-A5DF-642A87ECA567}
+libwdi:debug [syslog]      inf:           Driver Version: 02/22/2024,1.4.0.0
+libwdi:debug [syslog]      inf:           Catalog File: ILCE-7CM2.cat
+libwdi:debug [syslog]      sto:           {Copy Driver Package: c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf} 13:30:24.337
+libwdi:debug [syslog]      sto:                Driver Package = c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf
+libwdi:debug [syslog]      sto:                Flags          = 0x00000007
+libwdi:debug [syslog]      sto:                Destination    = C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}
+libwdi:debug [syslog]      sto:                Copying driver package files to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}'.
+libwdi:debug [syslog]      flq:                {FILE_QUEUE_COMMIT} 13:30:24.405
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\amd64\libusb0.dll' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusb0.dll'.
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\amd64\libusb0.sys' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusb0.sys'.
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\amd64\libusbk.dll' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusbk.dll'.
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\ILCE-7CM2.cat' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ILCE-7CM2.cat'.
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\ilce-7cm2.inf' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ilce-7cm2.inf'.
+libwdi:debug [syslog]      flq:                     Copying 'c:\users\v-weifjiang\usb_driver\x86\libusb0_x86.dll' to 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\x86\libusb0_x86.dll'.
+libwdi:debug [syslog]      flq:                {FILE_QUEUE_COMMIT - exit(0x00000000)} 13:30:24.570
+libwdi:debug [syslog]      sto:           {Copy Driver Package: exit(0x00000000)} 13:30:24.586
+libwdi:debug [syslog]      ump:           Import flags: 0x00000000
+libwdi:debug [syslog]      pol:           {Driver package policy check} 13:30:24.652
+libwdi:debug [syslog]      pol:           {Driver package policy check - exit(0x00000000)} 13:30:24.654
+libwdi:debug [syslog]      sto:           {Stage Driver Package: C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ilce-7cm2.inf} 13:30:24.654
+libwdi:debug [syslog]      inf:                Provider       = libusb-win32
+libwdi:debug [syslog]      inf:                Class GUID     = {eb781aaf-9c70-4523-a5df-642a87eca567}
+libwdi:debug [syslog]      inf:                Driver Version = 02/22/2024,1.4.0.0
+libwdi:debug [syslog]      inf:                Catalog File   = ILCE-7CM2.cat
+libwdi:debug [syslog]      inf:                Version Flags  = 0x00000011
+libwdi:debug [syslog]      inf:                {Query Configurability: C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ilce-7cm2.inf} 13:30:24.662
+libwdi:debug [syslog] !    inf:                     Driver package 'ilce-7cm2.inf' is NOT configurable.
+libwdi:debug [syslog]      inf:                {Query Configurability: exit(0x00000000)} 13:30:24.664
+libwdi:debug [syslog]      flq:                {FILE_QUEUE_COMMIT} 13:30:24.666
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusb0.dll' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\amd64\libusb0.dll'.
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusb0.sys' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\amd64\libusb0.sys'.
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\amd64\libusbk.dll' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\amd64\libusbk.dll'.
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ILCE-7CM2.cat' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ILCE-7CM2.cat'.
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\ilce-7cm2.inf' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ilce-7cm2.inf'.
+libwdi:debug [syslog]      flq:                     Copying 'C:\Users\V-WEIF~1\AppData\Local\Temp\{bca0b900-dcc0-2d46-82ea-6453c8debbd8}\x86\libusb0_x86.dll' to 'C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\x86\libusb0_x86.dll'.
+libwdi:debug [syslog]      flq:                {FILE_QUEUE_COMMIT - exit(0x00000000)} 13:30:24.692
+libwdi:debug [syslog]      sto:                {DRIVERSTORE IMPORT VALIDATE} 13:30:24.693
+libwdi:debug [syslog]      sig:                     Driver package catalog is valid.
+libwdi:debug [syslog]      sig:                     {_VERIFY_FILE_SIGNATURE} 13:30:24.706
+libwdi:debug [syslog]      sig:                          Key      = ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                          FilePath = C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                          Catalog  = C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ILCE-7CM2.cat
+libwdi:debug [syslog] !    sig:                          Verifying file against specific (valid) catalog failed.
+libwdi:debug [syslog] !    sig:                          Error 0x800b0109: A certificate chain processed, but terminated in a root certificate which is not trusted by the trust provider.
+libwdi:debug [syslog]      sig:                     {_VERIFY_FILE_SIGNATURE exit(0x800b0109)} 13:30:24.734
+libwdi:debug [syslog]      sig:                     {_VERIFY_FILE_SIGNATURE} 13:30:24.737
+libwdi:debug [syslog]      sig:                          Key      = ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                          FilePath = C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ilce-7cm2.inf
+libwdi:debug [syslog]      sig:                          Catalog  = C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\ILCE-7CM2.cat
+libwdi:debug [syslog]      sig:                          Success: File is signed in Authenticode(tm) catalog.
+libwdi:debug [syslog]      sig:                          Error 0xe0000241: The INF was signed with an Authenticode(tm) catalog from a trusted publisher.
+libwdi:debug [syslog]      sig:                     {_VERIFY_FILE_SIGNATURE exit(0xe0000241)} 13:30:24.752
+libwdi:debug [syslog]      sto:                {DRIVERSTORE IMPORT VALIDATE: exit(0x00000000)} 13:30:24.756
+libwdi:debug [syslog]      sig:                Signer Score  = 0x0F000000 (Authenticode)
+libwdi:debug [syslog]      sig:                Signer Name   = USB\VID_054C&PID_0E8A (libwdi autogenerated)
+libwdi:debug [syslog]      sto:                {Core Driver Package Import: ilce-7cm2.inf_amd64_28ffacf0e4e3db45} 13:30:24.761
+libwdi:debug [syslog]      sto:                     {DRIVERSTORE IMPORT BEGIN} 13:30:24.762
+libwdi:debug [syslog]      sto:                     {DRIVERSTORE IMPORT BEGIN: exit(0x00000000)} 13:30:24.762
+libwdi:debug [syslog]      cpy:                     {Copy Directory: C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}} 13:30:24.763
+libwdi:debug [syslog]      cpy:                          Target Path = C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45
+libwdi:debug [syslog]      cpy:                          {Copy Directory: C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\amd64} 13:30:24.766
+libwdi:debug [syslog]      cpy:                               Target Path = C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\amd64
+libwdi:debug [syslog]      cpy:                          {Copy Directory: exit(0x00000000)} 13:30:24.770
+libwdi:debug [syslog]      cpy:                          {Copy Directory: C:\Windows\System32\DriverStore\Temp\{304ed68a-1657-974e-a6a7-35b7dfce9ec2}\x86} 13:30:24.771
+libwdi:debug [syslog]      cpy:                               Target Path = C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\x86
+libwdi:debug [syslog]      cpy:                          {Copy Directory: exit(0x00000000)} 13:30:24.774
+libwdi:debug [syslog]      cpy:                     {Copy Directory: exit(0x00000000)} 13:30:24.776
+libwdi:debug [syslog]      idb:                     {Register Driver Package: C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\ilce-7cm2.inf} 13:30:24.787
+libwdi:debug [syslog]      idb:                          Created driver package object 'ilce-7cm2.inf_amd64_28ffacf0e4e3db45' in DRIVERS database node.
+libwdi:debug [syslog]      idb:                          Created driver INF file object 'oem88.inf' in DRIVERS database node.
+libwdi:debug [syslog]      idb:                          Registered driver package 'ilce-7cm2.inf_amd64_28ffacf0e4e3db45' with 'oem88.inf'.
+libwdi:debug [syslog]      idb:                          {Configure Device Setup Class: {eb781aaf-9c70-4523-a5df-642a87eca567}}
+libwdi:debug [syslog]      idb:                               Class Name = libusb-win32 devices
+libwdi:debug [syslog]      idb:                          {Configure Device Setup Class: exit(0x00000000)}
+libwdi:debug [syslog]      flq:                          {FILE_QUEUE_COMMIT} 13:30:24.798
+libwdi:debug [syslog]      flq:                          {FILE_QUEUE_COMMIT - exit(0x00000000)} 13:30:24.800
+libwdi:debug [syslog]      idb:                     {Register Driver Package: exit(0x00000000)} 13:30:24.801
+libwdi:debug [syslog]      idb:                     {Publish Driver Package: C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\ilce-7cm2.inf} 13:30:24.801
+libwdi:debug [syslog]      idb:                          Activating driver package 'ilce-7cm2.inf_amd64_28ffacf0e4e3db45'.
+libwdi:debug [syslog]      cpy:                          Published 'ilce-7cm2.inf_amd64_28ffacf0e4e3db45\ilce-7cm2.inf' to 'oem88.inf'.
+libwdi:debug [syslog]      idb:                          Indexed 2 device IDs for 'ilce-7cm2.inf_amd64_28ffacf0e4e3db45'.
+libwdi:debug [syslog]      sto:                          Flushed driver database node 'DRIVERS'. Time = 0 ms
+libwdi:debug [syslog]      sto:                          Flushed driver database node 'SYSTEM'. Time = 0 ms
+libwdi:debug [syslog]      idb:                     {Publish Driver Package: exit(0x00000000)} 13:30:24.820
+libwdi:debug [syslog]      sto:                     {DRIVERSTORE IMPORT END} 13:30:24.822
+libwdi:debug [syslog]      dvi:                          Flushed all driver package files to disk. Time = 2 ms
+libwdi:debug [syslog]      sig:                          Installed catalog 'ILCE-7CM2.cat' as 'oem88.cat'.
+libwdi:debug [syslog]      sto:                     {DRIVERSTORE IMPORT END: exit(0x00000000)} 13:30:24.835
+libwdi:debug [syslog]      sto:                {Core Driver Package Import: exit(0x00000000)} 13:30:24.836
+libwdi:debug [syslog]      sto:           {Stage Driver Package: exit(0x00000000)} 13:30:24.839
+libwdi:debug [syslog]      sto:      {Setup Import Driver Package - exit (0x00000000)} 13:30:24.953
+libwdi:debug [syslog]      dvi:      Searching for hardware ID(s):
+libwdi:debug [syslog]      dvi:           usb\vid_054c&pid_0e8a&rev_0100
+libwdi:debug [syslog]      dvi:           usb\vid_054c&pid_0e8a
+libwdi:debug [syslog]      dvi:      Searching for compatible ID(s):
+libwdi:debug [syslog]      dvi:           usb\compat_vid_054c&class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:           usb\compat_vid_054c&class_08&subclass_06
+libwdi:debug [syslog]      dvi:           usb\compat_vid_054c&class_08
+libwdi:debug [syslog]      dvi:           usb\class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:           usb\class_08&subclass_06
+libwdi:debug [syslog]      dvi:           usb\class_08
+libwdi:debug [syslog]      dvi:      Class GUID of device changed to: {eb781aaf-9c70-4523-a5df-642a87eca567}.
+libwdi:debug [syslog]      ump:      {Plug and Play Service: Device Install for USB\VID_054C&PID_0E8A\D115100F779A}
+libwdi:debug [syslog]      dvi:           Install flags: 0x00010211
+libwdi:debug [syslog]      dvi:           Searching for hardware ID(s):
+libwdi:debug [syslog]      dvi:                usb\vid_054c&pid_0e8a&rev_0100
+libwdi:debug [syslog]      dvi:                usb\vid_054c&pid_0e8a
+libwdi:debug [syslog]      dvi:           Searching for compatible ID(s):
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08&subclass_06
+libwdi:debug [syslog]      dvi:                usb\compat_vid_054c&class_08
+libwdi:debug [syslog]      dvi:                usb\class_08&subclass_06&prot_50
+libwdi:debug [syslog]      dvi:                usb\class_08&subclass_06
+libwdi:debug [syslog]      dvi:                usb\class_08
+libwdi:debug [syslog]      dvi:           Class GUID of device changed to: {eb781aaf-9c70-4523-a5df-642a87eca567}.
+libwdi:debug [syslog]      ndv:           {Core Device Install} 13:30:25.184
+libwdi:debug [syslog]      dvi:                {Install Device - USB\VID_054C&PID_0E8A\D115100F779A} 13:30:25.185
+libwdi:debug [syslog]      dvi:                     Device Status: 0x0180600a
+libwdi:debug [syslog]      dvi:                     Config Flags: 0x00000000
+libwdi:debug [syslog]      dvi:                     Parent Device: USB\ROOT_HUB30\4&2cd03848&0&0
+libwdi:debug [syslog]      dvi:                     {DIF_ALLOW_INSTALL} 13:30:25.191
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.192
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_ALLOW_INSTALL - exit(0xe000020e)} 13:30:25.194
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLDEVICEFILES} 13:30:25.195
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.196
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLDEVICEFILES - exit(0x00000000)} 13:30:25.205
+libwdi:debug [syslog]      dvi:                     {_SCAN_FILE_QUEUE} 13:30:25.205
+libwdi:debug [syslog]      dvi:                     {_SCAN_FILE_QUEUE - exit(0x00000000)} 13:30:25.207
+libwdi:debug [syslog]      flq:                     {FILE_QUEUE_COMMIT} 13:30:25.211
+libwdi:debug [syslog]      flq:                          Copying 'C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\amd64\libusb0.sys' to 'C:\Windows\system32\drivers\libusb0.sys'.
+libwdi:debug [syslog]      flq:                          Copying 'C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\amd64\libusb0.dll' to 'C:\Windows\system32\libusb0.dll'.
+libwdi:debug [syslog]      flq:                          Copying 'C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\amd64\libusbk.dll' to 'C:\Windows\system32\libusbk.dll'.
+libwdi:debug [syslog]      flq:                          Copying 'C:\Windows\System32\DriverStore\FileRepository\ilce-7cm2.inf_amd64_28ffacf0e4e3db45\x86\libusb0_x86.dll' to 'C:\Windows\syswow64\libusb0.dll'.
+libwdi:debug [syslog]      flq:                     {FILE_QUEUE_COMMIT - exit(0x00000000)} 13:30:25.274
+libwdi:debug [syslog]      dvi:                     {_SCAN_FILE_QUEUE} 13:30:25.276
+libwdi:debug [syslog]      dvi:                     {_SCAN_FILE_QUEUE - exit(0x00000000)} 13:30:25.277
+libwdi:debug [syslog]      dvi:                     {DIF_REGISTER_COINSTALLERS} 13:30:25.278
+libwdi:debug [syslog]      dvi:                          Reset Device: Resetting device configuration. 13:30:25.280
+libwdi:debug [syslog]      dvi:                          Reset Device: Resetting device configuration completed. 13:30:25.282
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.283
+libwdi:debug [syslog]      inf:                               {Install from INF Section - LIBUSB_WIN32_DEV.NTAMD64.CoInstallers} 13:30:25.285
+libwdi:debug [syslog]      inf:                                    Flags         - 0x001001ee
+libwdi:debug [syslog]      inf:                               {Install from INF Section - exit(0x00000000)} 13:30:25.286
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_REGISTER_COINSTALLERS - exit(0x00000000)} 13:30:25.288
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLINTERFACES} 13:30:25.288
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.290
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLINTERFACES - exit(0x00000000)} 13:30:25.292
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLDEVICE} 13:30:25.293
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.294
+libwdi:debug [syslog]      dvi:                               {Install DEVICE}
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - LIBUSB_WIN32_DEV.NTAMD64} 13:30:25.296
+libwdi:debug [syslog]      inf:                                         Flags         - 0x001005ee
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - exit(0x00000000)} 13:30:25.298
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - LIBUSB_WIN32_DEV.NTAMD64.Hw} 13:30:25.298
+libwdi:debug [syslog]      inf:                                         Flags         - 0x00100004
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - exit(0x00000000)} 13:30:25.301
+libwdi:debug [syslog]      dvi:                                    {Writing Device Properties}
+libwdi:debug [syslog]      dvi:                                         Strong Name=oem88.inf:a52522ad0c48fa1f:LIBUSB_WIN32_DEV.NTAMD64:1.4.0.0:usb\vid_054c&pid_0e8a
+libwdi:debug [syslog]      dvi:                                    {Writing Device Properties - Complete}
+libwdi:debug [syslog]      inf:                                    AddService=libusb0,0x00000002,libusb_add_service  (ilce-7cm2.inf line 97)
+libwdi:debug [syslog]      dvi:                                    Add Service: Created service 'libusb0'.
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - libusb_add_service} 13:30:25.311
+libwdi:debug [syslog]      inf:                                         Flags         - 0x00100004
+libwdi:debug [syslog]      inf:                                    {Install from INF Section - exit(0x00000000)} 13:30:25.314
+libwdi:debug [syslog]      dvi:                               {Install DEVICE exit (0x00000000)}
+libwdi:debug [syslog]      dvi:                               Install Device: Configuring device class. 13:30:25.320
+libwdi:debug [syslog]      dvi:                               Install Device: Configuring device class completed. 13:30:25.321
+libwdi:debug [syslog]      dvi:                               Device Status: 0x0180600a
+libwdi:debug [syslog]      dvi:                               {Restarting Devices} 13:30:25.324
+libwdi:debug [syslog]      dvi:                                    Query-remove: USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [syslog]      dvi:                                    Start: USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [syslog]      dvi:                                    Restart verified: USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [syslog]      dvi:                               {Restarting Devices exit} 13:30:25.670
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_INSTALLDEVICE - exit(0x00000000)} 13:30:25.672
+libwdi:debug [syslog]      dvi:                     {DIF_NEWDEVICEWIZARD_FINISHINSTALL} 13:30:25.672
+libwdi:debug [syslog]      dvi:                          Default installer: Enter 13:30:25.674
+libwdi:debug [syslog]      dvi:                          Default installer: Exit
+libwdi:debug [syslog]      dvi:                     {DIF_NEWDEVICEWIZARD_FINISHINSTALL - exit(0xe000020e)} 13:30:25.676
+libwdi:debug [syslog]      dvi:                {Install Device - exit(0x00000000)} 13:30:25.677
+libwdi:debug [syslog]      dvi:           {Core Device Install - exit(0x00000000)} 13:30:25.679
+libwdi:debug [syslog]      ump:      {Plug and Play Service: Device Install exit(00000000)}
+libwdi:debug [syslog]      ndv: {Update Device Driver - exit(00000000)}
+libwdi:debug [syslog]      ndv: {Install Related Drivers} 13:30:25.712
+libwdi:debug [syslog]      ndv: {Install Related Drivers: exit(0x00000000)} 13:30:25.726
+libwdi:debug [process_message] Switching timeout back to finite
+libwdi:debug [installer process] driver update completed
+libwdi:debug [installer process] re-enumerating driver node USB\VID_054C&PID_0E8A\D115100F779A...
+libwdi:debug [installer process] re-enumeration succeeded...
+libwdi:debug [process_message] Installer process completed
+libwdi:debug [installer process] successfully restored the system restore point creation setting
+Driver Installation: SUCCESS
+12 devices found.
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_03
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (0): USB\VID_046D&PID_C548&MI_03\6&BC4FD63&2&0003
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 3)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (1): USB\VID_046D&PID_C548&MI_02\6&BC4FD63&2&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (2): USB\VID_046D&PID_C548&MI_01\6&BC4FD63&2&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (3): USB\VID_046D&PID_C548&MI_00\6&BC4FD63&2&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (4): USB\VID_046D&PID_C52B&MI_00\7&C100E2&0&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_067B&PID_2323&REV_0705
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_067B&Class_02&SubClass_02&Prot_00
+libwdi:debug [wdi_create_list] Upper filter: serenum
+libwdi:debug [wdi_create_list] Driver version: 5.2.12.0
+libwdi:debug [wdi_create_list] plser USB device (7): USB\VID_067B&PID_2323\ANBPZ114J20
+libwdi:debug [wdi_create_list] Device description: 'USB-Serial Controller'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (8): USB\VID_046D&PID_C52B&MI_01\7&C100E2&0&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_8087&PID_0033&REV_0000
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_8087&Class_E0&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 24.70.0.4
+libwdi:debug [wdi_create_list] BTHUSB USB device (9): USB\VID_8087&PID_0033\5&30EDC94B&0&14
+libwdi:debug [wdi_create_list] Device description: '英特尔(R) 无线 Bluetooth(R)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_1100&REV_0101
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (10): USB\VID_0BDA&PID_1100\6&36F4B7A5&0&6
+libwdi:debug [wdi_create_list] Device description: 'HID Device'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_8153&REV_3300
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_FF&SubClass_FF&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 11.19.602.2025
+libwdi:debug [wdi_create_list] rtucx22x64 USB device (11): USB\VID_0BDA&PID_8153\0033000001
+libwdi:debug [wdi_create_list] Device description: 'USB 10/100/1000 LAN'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_054C&PID_0E8A&REV_0100
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_054C&Class_08&SubClass_06&Prot_50
+libwdi:debug [wdi_create_list] Driver version: 1.4.0.0
+libwdi:debug [wdi_create_list] libusb0 USB device (14): USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [wdi_create_list] Device description: 'ILCE-7CM2'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (16): USB\VID_046D&PID_C52B&MI_02\7&C100E2&0&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+0 devices found.
+12 devices found.
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_03
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (0): USB\VID_046D&PID_C548&MI_03\6&BC4FD63&2&0003
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 3)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (1): USB\VID_046D&PID_C548&MI_02\6&BC4FD63&2&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (2): USB\VID_046D&PID_C548&MI_01\6&BC4FD63&2&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (3): USB\VID_046D&PID_C548&MI_00\6&BC4FD63&2&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (4): USB\VID_046D&PID_C52B&MI_00\7&C100E2&0&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_067B&PID_2323&REV_0705
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_067B&Class_02&SubClass_02&Prot_00
+libwdi:debug [wdi_create_list] Upper filter: serenum
+libwdi:debug [wdi_create_list] Driver version: 5.2.12.0
+libwdi:debug [wdi_create_list] plser USB device (7): USB\VID_067B&PID_2323\ANBPZ114J20
+libwdi:debug [wdi_create_list] Device description: 'USB-Serial Controller'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (8): USB\VID_046D&PID_C52B&MI_01\7&C100E2&0&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_8087&PID_0033&REV_0000
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_8087&Class_E0&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 24.70.0.4
+libwdi:debug [wdi_create_list] BTHUSB USB device (9): USB\VID_8087&PID_0033\5&30EDC94B&0&14
+libwdi:debug [wdi_create_list] Device description: '英特尔(R) 无线 Bluetooth(R)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_1100&REV_0101
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (10): USB\VID_0BDA&PID_1100\6&36F4B7A5&0&6
+libwdi:debug [wdi_create_list] Device description: 'HID Device'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_8153&REV_3300
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_FF&SubClass_FF&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 11.19.602.2025
+libwdi:debug [wdi_create_list] rtucx22x64 USB device (11): USB\VID_0BDA&PID_8153\0033000001
+libwdi:debug [wdi_create_list] Device description: 'USB 10/100/1000 LAN'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_054C&PID_0E8A&REV_0100
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_054C&Class_08&SubClass_06&Prot_50
+libwdi:debug [wdi_create_list] Driver version: 1.4.0.0
+libwdi:debug [wdi_create_list] libusb0 USB device (14): USB\VID_054C&PID_0E8A\D115100F779A
+libwdi:debug [wdi_create_list] Device description: 'ILCE-7CM2'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (16): USB\VID_046D&PID_C52B&MI_02\7&C100E2&0&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+Using 'C:\Users\v-weifjiang\usb_driver' as extraction directory.
+12 devices found.
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_03
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (0): USB\VID_046D&PID_C548&MI_03\6&BC4FD63&2&0003
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 3)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (1): USB\VID_046D&PID_C548&MI_02\6&BC4FD63&2&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (2): USB\VID_046D&PID_C548&MI_01\6&BC4FD63&2&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C548&REV_0503&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (3): USB\VID_046D&PID_C548&MI_00\6&BC4FD63&2&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_00
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 1.10.80.0
+libwdi:debug [wdi_create_list] HidUsb USB device (4): USB\VID_046D&PID_C52B&MI_00\7&C100E2&0&0000
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 0)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_067B&PID_2323&REV_0705
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_067B&Class_02&SubClass_02&Prot_00
+libwdi:debug [wdi_create_list] Upper filter: serenum
+libwdi:debug [wdi_create_list] Driver version: 5.2.12.0
+libwdi:debug [wdi_create_list] plser USB device (7): USB\VID_067B&PID_2323\ANBPZ114J20
+libwdi:debug [wdi_create_list] Device description: 'USB-Serial Controller'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_01
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_01&Prot_02
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (8): USB\VID_046D&PID_C52B&MI_01\7&C100E2&0&0001
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 1)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_8087&PID_0033&REV_0000
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_8087&Class_E0&SubClass_01&Prot_01
+libwdi:debug [wdi_create_list] Driver version: 24.70.0.4
+libwdi:debug [wdi_create_list] BTHUSB USB device (9): USB\VID_8087&PID_0033\5&30EDC94B&0&14
+libwdi:debug [wdi_create_list] Device description: '英特尔(R) 无线 Bluetooth(R)'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_1100&REV_0101
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (10): USB\VID_0BDA&PID_1100\6&36F4B7A5&0&6
+libwdi:debug [wdi_create_list] Device description: 'HID Device'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_0BDA&PID_8153&REV_3300
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_0BDA&Class_FF&SubClass_FF&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 11.19.602.2025
+libwdi:debug [wdi_create_list] rtucx22x64 USB device (11): USB\VID_0BDA&PID_8153\0033000001
+libwdi:debug [wdi_create_list] Device description: 'USB 10/100/1000 LAN'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_054C&PID_0336&REV_0100
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_054C&Class_FF&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driverless USB device (12): USB\VID_054C&PID_0336\5&30EDC94B&0&2
+libwdi:debug [wdi_create_list] Device description: 'Sony USB Device'
+libwdi:debug [wdi_create_list] Hardware ID: USB\VID_046D&PID_C52B&REV_1211&MI_02
+libwdi:debug [wdi_create_list] Compatible ID: USB\COMPAT_VID_046d&Class_03&SubClass_00&Prot_00
+libwdi:debug [wdi_create_list] Driver version: 10.0.26100.9711
+libwdi:debug [wdi_create_list] HidUsb USB device (16): USB\VID_046D&PID_C52B&MI_02\7&C100E2&0&0002
+libwdi:debug [wdi_create_list] Device description: 'USB Receiver (Interface 2)'

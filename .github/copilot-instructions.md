@@ -20,6 +20,46 @@
 - **之前交付的命令行和 GUI 包只能离线预览，不能连接机身运行 `chinese check`、`repair` 或 `restore`。** GUI 显示“no writes”不能替代对实际通信链的审查。
 - 现有代码曾通过 47 项离线测试，包括 17 项 Tk GUI 测试，以及 38 个通信失败注入位置；没有任何实机中文字库读取、修复或冷启动验收。模拟设备无法证明真实 USB 协议兼容。
 
+## 2026-10-21 结论修正：改地区无效，区分 dat3 / 预设 / 语言位（chocotan 报告核对）
+
+读了 chocotan `report/2026-10-21-developer-modes/`（README 的"两个坑"+ REPORT），与本仓库离线证据互相印证，修正并补充如下：
+
+1. **改"区域码"不能解锁语言**（代码证实）：区域码 `dat3`（nflasha1 根目录，本机明文 `00000000`）唯一闭合调用链只用于**更新包匹配比较**（`libupdaterufp.so@0x1f34`）。语言可用性读 **Backup 区**（`backup_get_language_dst@0x35aa6bc`），与 dat3 无调用链。改 dat3/dat2（`modmod/modreg`）属更新器匹配层、且会动机型码（本机 `dat2=20030014`），**不要走这条路**。
+2. **三个不能混的概念**：
+   - 区域码 `dat3`（文件，仅更新匹配）
+   - 地区预设名 `CX89700_J1`（Backup 预设，决定出厂语言默认值，官方 `J1.bin` 简/繁位=2）
+   - 语言位 `0x010d0096/97`（Backup 区，运行时真正控制中文菜单项）
+3. **菜单中文 = 改 Backup 语言位**，原生可回滚写入（PMCA `LanguageTweak` 同路线），不需要 root。本机实测两位=`0x02`（关闭）。
+4. **真正难点仍是字体**：开语言位后中文菜单项会出现，但 `/tmp/images/*.ltt` 若已删，选中文仍重启。恢复字体只能写 `/tmp/images`，USB 服务模式无此路径（`0xFF01/0xFF03` 不在 A/B/C 权限表；`0x20 FirmwareUpdate` 空实现；`TERM_MODE`/内存命令被分派器拒绝），**唯一已验证途径是 libJit root**。
+5. **删字体分支绑定 Backup 子系统**（本仓库 OSAL 表证实）：`libsencore.so` 的 `ReceiveOsalMessage` 在 OSAL 命令 `0x3e0166`、响应字节 `0xFF` 时 `remove` 六个 `/tmp/images` 字体。表项 `66 01 3e 00 | 03 06 NN` 对应 `0x603/NN`（02=WRITE,03=SAVE,04=PDT_WRITE,05=PDT_READ）。即**改语言位所做的 Backup 写入本身就可能再次触发删字体**；这解释了"先解锁全部语言、选中文后重启"。
+
+**三方案对比（均在当前红线内，不执行）：**
+
+| 方案 | 实质 | 更新后保留 | 变砖上限 | 红线 |
+| --- | --- | --- | --- | --- |
+| 防删除（拦截固件行为） | root 或 DAT 补丁常驻 | 需每次更新后重做 | 高（取决于实现） | root / DAT |
+| root 写字体 + 开语言位 | libJit 代码执行 | 否（更新会重置+再删） | 中（取决于载荷正确性与写入安全） | root |
+| 改地区 `dat3` | 更新匹配层，不控语言 | — | 牵涉机型码/换族，更危险 | 改地区，且**无效** |
+
+区域码族说明：预设前缀=机型码。同机型码（CX89700）含中文地区有 E38/KR2/UC2/ALLLANG；CN1 属 CX897**01**（换族）。但按第 1 条，改 dat3 根本不解锁语言，此路否决。
+
+## 2026-10-21 离线定论：2.01 无额外 root 无法读取/恢复字库
+
+用专用环境独立复核了 `libJiritsu.so` 与 `libsencore.so` 的完整字符串表与路径映射，结论互相印证：
+
+1. **旧文件接口不存在**：2.01 `libsencore.so` 的 pFunc 分发表只含 `0x10/0x20/0x30/0x40/0xff00/0xff02`，没有 `0xFF01`（FileControl）也没有 `0xff03`（MemoryDump）。旧 `readFile/writeFile` 与旧 `chinese check/repair` 在这台机身上不可用。
+2. **唯一无 root 文件 I/O 被沙箱限制**：AdjustControl(`0x40`) 内的 Jiritsu `adj_cmd_get_file2`（读）、`adj_cmd_set_file`（写）、`adj_cmd_get_file_list`，路径经 `get_access_filename`/`get_jiritsu_area_filename` 按选择子映射到**固定清单**，基路径只有 `/tmp/jiritsu`（`/dev/nflasha6`）和 `/mnt`（存储卡）。`adj_cmd_set_file` 写入只允许 `/tmp/jiritsu/{jit.log,history.txt,libJit.so}`。
+3. **libJiritsu.so 全字符串表无字体路径**：61 条绝对路径全部在 `/tmp/jiritsu/*` 或 `/mnt`，**不含任何 `/tmp/images` 或 `.ltt`**。字体路径只出现在 `libsencore.so`（6 条 `/tmp/images/*.ltt` 与图标字体），由应用按 `fontlist.dat` 加载，没有对应的"读文件"服务命令。
+4. **字体在可写持久分区、删除永久**：`0100_config\mount.conf` 显示 `/dev/nflasha10 /tmp vfat`（约 12 MB，可写）。字体来自 `0800_appli` 应用镜像，在固件更新时写入 nflasha10，普通开机不重新复制。因此若被删除，重启不会自动恢复，需重刷固件或 root 写入。
+5. **`libJit.so` 分支就是 root/代码执行路径**：`adj_cmd_set_file` 写 `/tmp/jiritsu/libJit.so` 后 `dlopen` 加载——正是 chocotan 的 root 机制，属红线，不采用。
+6. **KikiLog 接口只读使用日志**（`libInfraKikiLogSender.so` 的 `InitKikiLog/ReadKikiLog`），不能读任意文件。
+
+**结论（在"不额外 root、不加载 libJit.so、不改 DAT、不用 Updater、不改地区"的红线内）：**
+- 无法通过现有服务接口**读取**这台机身的 `/tmp/images/*.ltt` 字体状态——读文件只有 `0xFF01`（不存在）或 Jiritsu（够不到该分区）。确认字体是否完好本身就需要越过 root 红线。
+- 无法**恢复**被删字体到 `/tmp/images`——唯一无 root 写路径沙箱在 `/tmp/jiritsu`。
+- 能读写的是语言位（备份属性 `0x603`，非文件）。本机实测两位均为 `0x02`（关闭）。
+- 因此"无 root 恢复中文字库"在 2.01 上**不可行**；之前关闭简繁中文规避重启，在红线内其实是唯一的非 root 选项。若将来授权写入且字体恰好完好，把 `0x010d0096/97` 置 `0x01` 可开启中文（2 字节备份写，可回滚）；但字体是否完好无法在不 root 的情况下先行确认，若字体已删则选择中文仍会重启（断电重开可恢复，不致变砖）。
+
 ## 已验证的离线事实与未解决问题
 
 1. 用户提供的原始更新包解析为 **2.01**，不是早先提到的 2.00；机身版本由用户报告已升级到 2.01，换机诊断时仍需读取确认。
@@ -79,9 +119,39 @@
 - 若缺失或不匹配，也只报告结果；**不自动恢复、解锁、改地区或开启新权限**。
 - 若无法在这些限制下取得证据，明确说明阻碍并停止。任何后续写入阶段需要单独讨论，不在当前授权中。
 
+## 本机运行环境（2026-10-21 记录）
+
+换机后在这台 Windows 机器上专门建立了隔离环境，不要污染 base 或其他 conda 环境：
+
+- 专用环境：`conda` 环境 **`pmca-a7c2`**，解释器 `D:\miniconda3\envs\pmca-a7c2\python.exe`（Python 3.11）。
+  - 用 `D:\Program Files\miniconda3\Scripts\conda.exe` 创建，但环境实际落在 `D:\miniconda3\envs\pmca-a7c2`（该机有两个 miniconda：`D:\Program Files\miniconda3` 是 base，`D:\miniconda3` 存放 envs）。
+  - 已按 [requirements.txt](../requirements.txt) 安装 `pyusb`、`pycryptodomex`、`axmlparserpy`、`pywin32` 等；pmca 可正常导入。
+- libusb 原生后端由 `pip` 包 **`libusb-package`** 提供，DLL 位于 `D:\miniconda3\envs\pmca-a7c2\Lib\site-packages\libusb_package\libusb-1.0.dll`。
+  - pyusb 默认 `usb.core.find` 需要该 DLL 可被发现；运行前把其所在目录前置到进程 `PATH`，或显式用 `libusb_package.get_libusb1_backend()`。
+- 系统自带的 `python`（WindowsApps 的 `python.exe` 占位）不可用，base miniconda 也没有这些依赖；一律用上面的专用解释器。
+- 不要把该环境、`libusb-1.0.dll` 或任何构建产物提交到仓库。
+
+### 2026-10-21 实机只读结果与驱动状态
+
+- 用户授权后，用官方 Zadig 2.9（`%USERPROFILE%\Downloads\zadig-portable.exe`，SHA-256 `4ECAA95DF3DA3621486A043AEF8B3050B8BAFE7C901402871E816229EF82039B`）由用户在界面中确认设备并替换驱动：
+  - MSC `USB\VID_054C&PID_0E8A\D115100F779A`：`usbstor`（`usbstor.inf`, Microsoft）→ **`libusb0`（`oem88.inf`）**。
+  - 服务模式 `USB\VID_054C&PID_0336\...`：无驱动 → **`libusb0`（`oem89.inf`）**。
+  - 原绑定属性备份在 `.firmware\driver-backup\`（不入 Git）。
+  - **恢复方法（用户要求全部完成后换回）**：在设备管理器中卸载这两个设备并勾选删除驱动，或以管理员执行 `pnputil /delete-driver oem88.inf /uninstall` 与 `pnputil /delete-driver oem89.inf /uninstall`，然后重新插拔；MSC 设备应回到 `usbstor`。执行前先用 `pnputil /enum-drivers` 确认 `oem88/oem89` 仍是 libusb-win32 包，避免误删其他驱动。
+- 只读探针：仓库根目录 [tools_chinese_readonly_probe.py](../tools_chinese_readonly_probe.py)（未提交）。默认仅主机枚举；`--read` 做 StartSenser + 认证 → 切服务模式 → 只用 `readBackup`（`0x603/1`）读取 → StopSenser。不读文件、不读预设备份、不写。
+- 实机读取结果（ILCE-7CM2）：型号 `ILCE-7CM2`，型号码 `0032856401`；**两个中文语言位 `0x010d0096`、`0x010d0097` 均为 `0x02`（disabled）**。序列号已读取，属私有数据，不写入仓库。
+- 结论：当前机身中文菜单项处于关闭状态，与此前移除简繁中文的改动一致；所以现在不会因为选择中文而重启。中文字体文件状态**仍未知**（需要 Jiritsu 读取，尚未适配）；固件版本未通过文件确认（`/setting/updater/dat4` 需要文件接口）。
+
+### 必须先解决的连接前置条件（驱动已于 2026-10-21 解决）
+
+1. **驱动**：相机在 MSC 模式，USB 设备 `VID_054C&PID_0E8A` 仍绑定 Windows `usbstor`（`usbstor.inf`，Provider=Microsoft）。PMCA 进服务模式要求 libusb 驱动（`isinstance(device.driver, GenericUsbDriver)`），需用 Zadig/libusb-win32 换驱动；换前记录原驱动，用户要求全部完成后换回。服务模式设备 `PID_0336` 之后也要换。
+2. **旧文件接口不可用**：2.01 的 `libsencore.so` 三张服务命令表（见 `.firmware\analysis-201\service-dispatch-tables.json`）只含 `0x10/0x20/0x30/0x40/0xff00/0xff02`，**没有 `0xFF01`**。现有 `readFile/writeFile` 和 `chinese check` 的身份、字体读取都走 `0xFF01`，在这台机身会被拒绝，不能用于实机。
+3. **只读探针**：唯一文件读取路径是 AdjustControl(`0x40`) 内的 Jiritsu `adj_cmd_get_file2`，按选择子字节映射固定路径，且含 `mode==0x300` 的写文件分支（`O_WRONLY|O_CREAT|O_TRUNC`）必须避开；其协议适配尚未验证，字体可达性未确认，本轮不上机。
+   - **本轮唯一可安全执行的实机只读** = 认证后用 `readBackup`（AdjustControl `0x603/1`，在分发表内，且不是触发删字体的 `0x603/4、0x603/5` 预设数据分支）读取型号、版本、序列号与两个中文语言位 `0x010d0096`、`0x010d0097`。不读文件、不读预设备份、不写任何内容。
+
 ## 离线测试与代码导航
 
-在仓库根目录、已配置项目依赖的本地隔离 Python 环境中运行：
+在仓库根目录、已配置项目依赖的本地隔离 Python 环境中运行（本机用上面的 `pmca-a7c2`）：
 
 ```powershell
 python -m unittest discover -s tests -p 'test_chinese*.py' -v
