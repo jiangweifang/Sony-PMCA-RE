@@ -51,6 +51,20 @@ bash modules/apply-qemu-patch.sh
 原始固件、私有日志、生成的 runtime 和大体积 QEMU 源码归档仍不由 Git 传输，
 需要另外准备。不要把它们公开上传。
 
-当前只验证了离线输入、清单和边界行为；未在本机执行 Ubuntu 构建或 GUI 启动。
+WSL Ubuntu 24.04 已完成离线构建、QMP 输入自测、J1 资产校验和 UTC+9 虚拟时钟读回/推进。
+使用原始 J1 seed 的受控菜单入口已取得英文菜单截图，窗口正常退出；
+这不是日版自然开机/日语首设或中文恢复通过。原始语言可用位与当前语言字段的区别、
+已验证修正及保留的黑帧失败记录见上述本地 Ubuntu 使用说明，不沿用上游 ALLLANG 验收结论。
 J1 两个中文位仍为原始关闭状态，不自动解锁或补字库。
 不连接相机、不使用机身 root、不将任何实验产物写回机身。
+
+用户后续批准的本机 TCP Backup 实验已由 PMCA 调用原生 API 验证
+1/35 → 35/35，未改 seed、地区、字体或当前语言。
+这不是 USB 服务认证或中文恢复；步骤、代码入口与有限结果见
+[PMCA TCP Backup 实验记录](../qemu/report/2026-10-17-qemu-native-camera/PMCA-BACKUP-TCP-EXPERIMENT.md)。
+
+2026-10-27 用户重新选择 Windows PMCA 与原生 Sony USB 服务链。
+PMCA QEMU USB 客户端已补服务类和控制请求，并通过 Windows 离线测试；
+这不是 USB 设备端实现，也不会创建 Windows 虚拟相机。
+原 DWC3/gadget、枚举、认证与语言写入仍未接通，不采用 Backup RPC 代理冒充通过。
+详见 [原生 USB 分层状态](../qemu/report/2026-10-17-qemu-native-camera/QEMU-USB-SERVICE-CHECK.md)。

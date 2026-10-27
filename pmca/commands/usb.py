@@ -156,6 +156,7 @@ def importDriver(driverName=None):
  elif driverName == 'qemu':
   from ..usb.driver.generic.qemu import MscContext
   from ..usb.driver.generic.qemu import MtpContext
+  from ..usb.driver.generic.qemu import VendorSpecificContext
  elif driverName != 'libusb':
   raise Exception('Unknown driver')
 

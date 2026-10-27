@@ -6,20 +6,21 @@ import usb.util
 from . import *
 
 class _UsbContext(BaseUsbContext):
- def __init__(self, name, classType, driverClass):
+ def __init__(self, name, classType, driverClass, backend=None):
   super(_UsbContext, self).__init__('libusb-%s' % name, classType)
   self._driverClass = driverClass
+  self._backend = backend
 
  def listDevices(self, vendor):
-  return _listDevices(vendor, self.classType)
+  return _listDevices(vendor, self.classType, self._backend)
 
  def openDevice(self, device):
   return self._driverClass(UsbBackend(device.handle))
 
 
 class MscContext(_UsbContext):
- def __init__(self):
-  super(MscContext, self).__init__('MSC', USB_CLASS_MSC, None)
+ def __init__(self, backend=None):
+  super(MscContext, self).__init__('MSC', USB_CLASS_MSC, None, backend)
 
  def openDevice(self, device):
   backend = UsbBackend(device.handle)
@@ -32,17 +33,17 @@ class MscContext(_UsbContext):
    raise Exception('Invalid protocol')
 
 class MtpContext(_UsbContext):
- def __init__(self):
-  super(MtpContext, self).__init__('MTP', USB_CLASS_PTP, MtpDriver)
+ def __init__(self, backend=None):
+  super(MtpContext, self).__init__('MTP', USB_CLASS_PTP, MtpDriver, backend)
 
 class VendorSpecificContext(_UsbContext):
- def __init__(self):
-  super(VendorSpecificContext, self).__init__('vendor-specific', USB_CLASS_VENDOR_SPECIFIC, GenericUsbDriver)
+ def __init__(self, backend=None):
+  super(VendorSpecificContext, self).__init__('vendor-specific', USB_CLASS_VENDOR_SPECIFIC, GenericUsbDriver, backend)
 
 
-def _listDevices(vendor, classType):
+def _listDevices(vendor, classType, backend=None):
  """Lists all detected USB devices"""
- for dev in usb.core.find(find_all=True, idVendor=vendor):
+ for dev in usb.core.find(find_all=True, idVendor=vendor, backend=backend):
   interface = next((interface for config in dev for interface in config), None)
   if interface and interface.bInterfaceClass == classType:
    yield UsbDeviceHandle(dev, dev.idVendor, dev.idProduct)

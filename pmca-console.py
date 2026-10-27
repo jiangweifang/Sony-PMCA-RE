@@ -45,6 +45,11 @@ def main():
  updaterShellMode.add_argument('-f', dest='fdatFile', type=argparse.FileType('rb'), help='firmware file')
  updaterShellMode.add_argument('-m', dest='model', help='model name')
  serviceShell = subparsers.add_parser('serviceshell', description='Launch service mode shell')
+ qemuBackup = subparsers.add_parser('qemu-backup', description='Explicit loopback QEMU native Backup experiment; never connects to USB cameras')
+ qemuBackup.add_argument('--endpoint', required=True, help='Private endpoint file produced by the QEMU frontend')
+ qemuBackup.add_argument('--report', required=True, help='New private JSONL report file')
+ qemuBackup.add_argument('--unlock-all35', action='store_true', help='QEMU-only all35 policy, including Chinese; no fonts or current-language change')
+ qemuBackup.add_argument('--confirm-qemu-only', action='store_true', help='Confirm only the local virtual Backup experiment')
  guessFirmware = subparsers.add_parser('guess_firmware', description='Guess the applicable firmware file')
  guessFirmware.add_argument('-d', dest='driver', choices=drivers, help='specify the driver')
  guessFirmware.add_argument('-f', dest='file', type=argparse.FileType('rb'), required=True, help='input file')
@@ -86,6 +91,11 @@ def main():
   updaterShellCommand(args.model, args.fdatFile, args.driver)
  elif args.command == 'serviceshell':
   senserShellCommand()
+ elif args.command == 'qemu-backup':
+  if args.unlock_all35 and not args.confirm_qemu_only:
+   parser.error('--unlock-all35 requires --confirm-qemu-only')
+  from pmca.platform.qemu import qemuBackupCommand
+  raise SystemExit(qemuBackupCommand(args.endpoint, args.report, args.unlock_all35, args.confirm_qemu_only))
  elif args.command == 'guess_firmware':
   guessFirmwareCommand(args.file, args.driver)
  elif args.command == 'gps':
